@@ -1,0 +1,22 @@
+<section class="container my-10">
+@if(!RegisterMode()){
+    <div class="text-center">
+        <h1>Find your match</h1>
+        <div class="lead">Come on in to view your matches... all you need to do is sign up!</div>
+        <div class="text-center mt-5">
+        <app-main-button (click)="registerToggle()" Type="button">Register</app-main-button>
+        <app-main-button Type="button">Learn more</app-main-button>
+        </div>
+    </div>
+}
+@else {
+    <div  class="container w-1/2 mx-auto">
+       <div class="flex">
+        <div class="columns-auto">
+            <app-register (CancelFromChild)="registerToggle($event)"></app-register>
+        </div>
+       </div>
+    </div>
+}
+
+</section>
