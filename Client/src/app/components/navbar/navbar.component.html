@@ -1,0 +1,78 @@
+
+
+<nav class="bg-gray-100 border-gray-200 dark:bg-gray-900">
+    <div class="flex justify-start items-center mx-auto max-w-screen-xl p-4">
+       <div class="columns-auto">
+        <a routerLink="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <span class="self-center text-2xl text-sky-600 font-semibold whitespace-nowrap">
+                DatingApp
+            </span>
+        </a>
+       </div>
+      
+        <div class="columns-auto ms-10">
+            <ul class="flex flex-row font-medium mt-0 space-x-4 rtl:space-x-reverse text-sm">
+                @if(IsLoggedIn()){
+                <li>
+                    <a routerLink="/members" routerLinkActive="active-route" class="text-zinc-500 cursor-pointer hover:text-sky-600 hover:font-bold ">
+                        Matches
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/lists" routerLinkActive="active-route" class="text-zinc-500 cursor-pointer hover:text-sky-600 hover:font-bold">
+                        Lists
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/messages" routerLinkActive="active-route" class="text-zinc-500 cursor-pointer hover:text-sky-600 hover:font-bold ">
+                        Messages
+                    </a>
+                </li>
+            }
+            <li>
+                <a routerLink="/errors" routerLinkActive="active-route" class="text-zinc-500 cursor-pointer hover:text-sky-600 hover:font-bold ">
+                    Errors Test
+                </a>
+            </li>
+            </ul>
+        </div>
+      
+
+      @if(IsLoggedIn()){
+       <div class="relative columns-auto ms-auto">
+        <button (click)="toggle()" class="text-white capitalize bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+            Welcome {{UserName()}}
+            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
+        </button>
+       @if(showDropdown()){
+        <div class="z-10 absolute top-full end-0 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+              <li>
+                <a [routerLink]="['/routePath']"  class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    Edit profile
+                </a>
+              </li>
+              <li>
+                <a (click)="logout()"  class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    logout
+                </a>
+              </li>
+            </ul>
+        </div> 
+       }
+       </div>       
+      }
+
+       @if(!IsLoggedIn()){
+        <form class="ms-auto" #loginForm="ngForm" (ngSubmit)="loginSubmit()">
+            <div class="flex items-center space-x-6 rtl:space-x-reverse">
+                <input [(ngModel)]="model().username" name="username" type="text" id="username" placeholder="Username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input [(ngModel)]="model().password" name="password" type="password" id="password" placeholder="Password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <app-main-button Type="submit">Login</app-main-button>
+            </div>
+        </form>
+       }
+    </div>
+</nav>
