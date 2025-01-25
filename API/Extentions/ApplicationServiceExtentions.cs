@@ -1,9 +1,8 @@
 ﻿using API.Data;
-using API.Exceptions;
+using API.Data.Repositories;
+using API.Interfaces.Repositories;
 using API.Interfaces.Services;
 using API.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extentions
@@ -42,6 +41,10 @@ namespace API.Extentions
             services.AddCors();
 
             services.AddScoped<ITokenService, TokenService>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+       
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }

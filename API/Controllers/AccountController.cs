@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using API.DTOs.auth;
 using API.Interfaces.Services;
+using API.Controllers._common;
 
 namespace API.Controllers
 {
@@ -16,25 +17,26 @@ namespace API.Controllers
         {
             if (await UserExist(registerDTO.Username)) return BadRequest("this username is already exist");
 
-            using var hmac = new HMACSHA512();
+            return Ok();
+            //using var hmac = new HMACSHA512();
 
-            AppUser user = new AppUser()
-            {
-                UserName = registerDTO.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
-                PasswordSalt = hmac.Key
-            };
+            //AppUser user = new AppUser()
+            //{
+            //    UserName = registerDTO.Username.ToLower(),
+            //    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
+            //    PasswordSalt = hmac.Key
+            //};
 
-            await dbContext.Users.AddAsync(user);
-            await dbContext.SaveChangesAsync();
+            //await dbContext.Users.AddAsync(user);
+            //await dbContext.SaveChangesAsync();
 
-            UserDTO userDTO = new()
-            {
-                Username = user.UserName,
-                Token = _tokenService.GenerateToken(user)
-            };
+            //UserDTO userDTO = new()
+            //{
+            //    Username = user.UserName,
+            //    Token = _tokenService.GenerateToken(user)
+            //};
 
-            return Ok(userDTO);
+            //return Ok(userDTO);
         }
 
         [HttpPost("login")]

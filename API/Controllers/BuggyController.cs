@@ -1,4 +1,5 @@
-﻿using API.Data;
+﻿using API.Controllers._common;
+using API.Data;
 using API.DTOs.auth;
 using API.Entities;
 using Microsoft.AspNetCore.Authorization;
