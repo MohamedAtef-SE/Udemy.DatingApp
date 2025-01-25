@@ -38,6 +38,7 @@ namespace API
             app.MapControllers();
 
             await app.SeedAsync();
+
             app.Run();
         }
     }

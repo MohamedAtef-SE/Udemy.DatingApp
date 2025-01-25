@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { environments } from '../../core/environments/environments';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-errors',
@@ -15,7 +15,7 @@ export class ErrorsComponent {
   ValidationErrors:string[] = [];
 
   getBadRequest():void{
-    this._HttpClient.get(`${environments.baseURL}/api/buggy/bad-request`).subscribe({
+    this._HttpClient.get(`${environment.baseURL}/api/buggy/bad-request`).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);
@@ -28,7 +28,7 @@ export class ErrorsComponent {
   }
 
   getAuthError():void{
-    this._HttpClient.get(`${environments.baseURL}/api/buggy/auth`).subscribe({
+    this._HttpClient.get(`${environment.baseURL}/api/buggy/auth`).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);
@@ -41,7 +41,7 @@ export class ErrorsComponent {
   }
 
   getNotFound():void{
-    this._HttpClient.get(`${environments.baseURL}/api/buggy/not-found`).subscribe({
+    this._HttpClient.get(`${environment.baseURL}/api/buggy/not-found`).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);
@@ -54,7 +54,7 @@ export class ErrorsComponent {
   }
 
   getValidationError():void{
-    this._HttpClient.post(`${environments.baseURL}/api/buggy/validation`,{}).subscribe({
+    this._HttpClient.post(`${environment.baseURL}/api/buggy/validation`,{}).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);
@@ -67,7 +67,7 @@ export class ErrorsComponent {
   }
 
   getServerException():void{
-    this._HttpClient.get(`${environments.baseURL}/api/buggy/server-error`).subscribe({
+    this._HttpClient.get(`${environment.baseURL}/api/buggy/server-error`).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);

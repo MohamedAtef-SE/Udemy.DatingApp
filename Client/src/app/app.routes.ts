@@ -8,13 +8,22 @@ import { MessagesComponent } from './components/messages/messages.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { authGuard } from './core/gurards/auth-guard';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
+import { AboutComponent } from './components/members/member-detail/about/about.component';
+import { MessagesComponent as dashboardMessages } from './components/members/member-detail/messages/messages.component';
+import { InterestsComponent } from './components/members/member-detail/interests/interests.component';
+import { PhotosComponent } from './components/members/member-detail/photos/photos.component';
 
 export const routes: Routes = [
     {path: '',redirectTo: '',pathMatch:'full'},
     {path: '',component: HomeComponent},
     {path:'', canActivate: [authGuard],runGuardsAndResolvers:'always',children:[
         {path:'members',component: MemberListComponent},
-        {path: 'members/:id',component: MemberDetailComponent},
+        {path: 'members/:username',component: MemberDetailComponent,children:[
+            {path:'about',component: AboutComponent},
+            {path:'interests',component: InterestsComponent},
+            {path: 'photos',component: PhotosComponent},
+            {path: 'messages',component: dashboardMessages}
+        ]},
         {path: 'lists',component: ListsComponent},
         {path: 'messages', component: MessagesComponent},
     ]},

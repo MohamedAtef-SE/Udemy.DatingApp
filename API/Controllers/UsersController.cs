@@ -1,37 +1,42 @@
-﻿using API.Data;
-using API.Entities;
+﻿using API.Controllers._common;
+using API.DTOs.members;
+using API.Interfaces.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class UsersController : BaseApiController
+    public class UsersController(IUserRepository _userRepository) : BaseApiController
     {
-        private readonly DataContext _dbContext;
-
-        public UsersController(DataContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
         {
-            var users = await _dbContext.Users.ToListAsync();
+            var users = await _userRepository.GetMembersAsync();
 
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetUser(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<MemberDTO>> GetUser(int id)
         {
-            var user = await _dbContext.Users.FindAsync(id);
+            var user = await _userRepository.GetMemberByIdAsync(id);
+
             if (user is null) return NotFound();
 
             return Ok(user);
         }
+
+        [HttpGet("{username}")]
+        public async Task<ActionResult<MemberDTO>> GetUser(string username)
+        {
+            var user = await _userRepository.GetMemberByUsernameAsync(username);
+
+            if (user is null) return NotFound();
+
+            return Ok(user);
+        }
+
     }
 }
