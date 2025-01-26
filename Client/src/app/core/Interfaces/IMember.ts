@@ -17,3 +17,12 @@ export interface IMember {
     country: string
     photos: IPhoto[]
   }
+
+
+  export interface IMemberUpdateForm{
+    Introduction:string,
+    Interests:string,
+    LookingFor:string,
+    City:string,
+    Country:string
+  }

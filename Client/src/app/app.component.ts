@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { AccountService } from './core/services/account.service';
+import { NgxSpinnerComponent } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet, NavbarComponent,NgxSpinnerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
