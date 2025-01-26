@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
-import { MembersService } from '../../../core/services/members.service';
+import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { IMember } from '../../../core/Interfaces/IMember';
+import { MembersService } from '../../../core/services/members.service';
 import { MemberCardComponent } from '../member-card/member-card.component';
 
 @Component({
@@ -13,14 +13,9 @@ import { MemberCardComponent } from '../member-card/member-card.component';
 export class MemberListComponent implements OnInit {
   
   _MembersService = inject(MembersService);
-  Members:WritableSignal<IMember[]> = signal([]);
+  Members:Signal<IMember[]> = computed(()=> this._MembersService.Members());
 
   ngOnInit(): void {
-    this._MembersService.getAllMembers().subscribe({
-      next:(res:IMember[])=>{
-        this.Members.set(res);
-      }
-    });
+    if(this._MembersService.Members().length === 0) this._MembersService.getAllMembers();
   }
-
 }

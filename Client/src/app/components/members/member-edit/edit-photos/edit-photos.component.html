@@ -1,0 +1,9 @@
+<section class="p-10 grid grid-cols-4">
+    @for(photo of Photos();track photo.id){
+       <div class="col-span-1 relative">
+        <img class="w-full rounded-xl" src="{{photo.url}}">
+        <i class="fa-solid fa-close absolute top-2 right-2 fa-2xl text-white cursor-pointer rounded-full w-5 h-5 p-1 bg-red-500"></i>
+       </div>
+    }
+    
+</section>

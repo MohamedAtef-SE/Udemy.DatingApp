@@ -21,7 +21,7 @@ export class MainButtonComponent  {
   @Input() Type: string = "button";
 
   @Input() myClass : IBtnClass = {
-    'bg': "bg-sky-600",
+    'bg': "bg-red-500",
     'color': "text-white",
     'bgHover': "hover:bg-sky-700"
   }
