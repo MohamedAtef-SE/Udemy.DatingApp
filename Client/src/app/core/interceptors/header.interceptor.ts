@@ -3,8 +3,6 @@ import { inject } from '@angular/core';
 import { AccountService } from '../services/account.service';
 
 export const headerInterceptor: HttpInterceptorFn = (req, next) => {
-
-  console.log('Hello From Header Interceptor');
   if(req.url.includes('account')){
     return next(req);
   }

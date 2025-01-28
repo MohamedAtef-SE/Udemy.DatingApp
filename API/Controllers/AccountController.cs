@@ -1,16 +1,16 @@
-﻿using API.Data;
-using API.Entities;
+﻿using API.Controllers._common;
+using API.Data;
+using API.DTOs.auth;
+using API.Interfaces.Repositories;
+using API.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using API.DTOs.auth;
-using API.Interfaces.Services;
-using API.Controllers._common;
 
 namespace API.Controllers
 {
-    public class AccountController(DataContext dbContext, ITokenService _tokenService) : BaseApiController
+    public class AccountController(DataContext dbContext,IUserRepository _userRepository, ITokenService _tokenService) : BaseApiController
     {
         [HttpPost("register")] // {{BaseURL}}/api/account/register
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
@@ -42,7 +42,7 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
-            var user = await dbContext.Users.FirstOrDefaultAsync(user => user.UserName == loginDTO.Username.ToLower());
+            var user = await _userRepository.GetUserByUsernameAsync(loginDTO.Username);
             if (user is null) return Unauthorized(new { message = "invalid username" });
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -59,7 +59,8 @@ namespace API.Controllers
             UserDTO userDTO = new()
             {
                 Username = user.UserName,
-                Token = _tokenService.GenerateToken(user)
+                Token = _tokenService.GenerateToken(user),
+                PhotoURL = user.Photos.FirstOrDefault(photo => photo.IsMain)?.URL
             };
             return Ok(userDTO);
         }

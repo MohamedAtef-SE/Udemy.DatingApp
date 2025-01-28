@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
+import { Component, computed, HostListener, inject, input, InputSignal, OnInit, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 import { IMember, IMemberUpdateForm } from '../../../../core/Interfaces/IMember';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -13,20 +13,15 @@ import { Router } from '@angular/router';
   styleUrl: './edit-profile.component.css'
 })
 
-export class EditProfileComponent implements OnInit {
-
-  Member:WritableSignal<IMember> = signal({} as IMember);
+export class EditProfileComponent {
+  
+  Member:Signal<IMember> = computed(()=> this._MembersService.Member())
   _MembersService = inject(MembersService);
   _ToastrService = inject(ToastrService);
   _Router = inject(Router);
 
   @ViewChild('editForm') editForm? : NgForm
   
-  ngOnInit(): void {
-    const member: IMember = history.state.data.member;
-    if(!member) return;
-      this.Member.set(member);
-  }
 
   @HostListener('window:beforeunload',['$event']) notify(event:any){
     if(this.editForm?.dirty){

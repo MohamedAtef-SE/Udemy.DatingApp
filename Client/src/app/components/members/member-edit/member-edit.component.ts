@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { IMember } from '../../../core/Interfaces/IMember';
 import { AccountService } from '../../../core/services/account.service';
@@ -8,41 +8,30 @@ import { MembersService } from '../../../core/services/members.service';
 @Component({
   selector: 'app-member-edit',
   standalone: true,
-  imports: [DatePipe, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [DatePipe, RouterLink, RouterLinkActive,RouterOutlet],
   templateUrl: './member-edit.component.html',
   styleUrl: './member-edit.component.css'
 })
 export class MemberEditComponent implements OnInit {
-
-  Member:WritableSignal<IMember | null> = signal(null);
+  
+  Member:Signal<IMember> = computed(()=> this._MembersService.Member());
+  EditToggle: WritableSignal<string> = signal("EditProfile")
   _AccountService = inject(AccountService);
   _MembersService = inject(MembersService);
   _Router =inject(Router);
 
+
+  
   ngOnInit(): void {
-      this.loadMember();
+    this._MembersService.loadMember();
+    console.log("Hello From member-edit component")
   }
 
-  openEditPhotosWithData(){
-    this._Router.navigateByUrl('member/edit/photos',{state: {data: {photos: this.Member()?.photos} }})
-  }
+  EditProfile() {
+    this.EditToggle.set("EditProfile")
+    }
 
-  openEditProfileWithData(){
-    this._Router.navigateByUrl('member/edit/profile',{state:{data:{member: this.Member()}}})
-  }
-
-
-
-  loadMember(){
-    const user = this._AccountService.CurrentUser();
-    if(!user) return;
-    this._MembersService.getMember(user.username).subscribe({
-      next:(res:IMember)=>{
-        this.Member.set(res);
-        this._Router.navigateByUrl('member/edit/profile',{state: {data: {member: this.Member()}}})
-
-      }
-    })
-  }
-
+  EditPhotos() {
+    this.EditToggle.set("EditPhotos")
+    }
 }
