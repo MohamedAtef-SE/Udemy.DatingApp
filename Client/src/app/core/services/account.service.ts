@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ILoginForm, ILoginResponse, IRegisterForm, IRegisterResponse } from '../Interfaces/Models';
 import { environment } from '../../../environments/environment';
+import { MembersService } from './members.service';
+import { IMember } from '../Interfaces/IMember';
 
 @Injectable({
   providedIn: 'root'

@@ -13,5 +13,4 @@ export class MemberCardComponent {
   
   Member: InputSignal<IMember> = input.required<IMember>();
 
-
 }

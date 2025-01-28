@@ -10,7 +10,8 @@ export interface IRegisterForm extends ILoginForm{}
 
 export interface ILoginResponse{
     "username": string,
-    "token": string
+    "token": string,
+    "photoURL"?: string
 }
 
 export interface IRegisterResponse extends ILoginResponse {}
