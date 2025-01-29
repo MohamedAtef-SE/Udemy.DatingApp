@@ -6,9 +6,17 @@ export interface ILoginForm{
     "password":string
 }
 
-export interface IRegisterForm extends ILoginForm{}
+export interface IRegisterForm extends ILoginForm {
+    "confirmPassword":string,
+    "gender":string,
+    "knownAs":string,
+    "dateOfBirth":string
+    "city":string,
+    "country":string
+}
 
 export interface ILoginResponse{
+    "knownAs":string
     "username": string,
     "token": string,
     "photoURL"?: string

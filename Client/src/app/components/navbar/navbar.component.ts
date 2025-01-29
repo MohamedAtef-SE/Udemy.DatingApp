@@ -6,6 +6,7 @@ import { ILoginForm, ILoginResponse } from '../../core/Interfaces/Models';
 import { MainButtonComponent } from "../buttons/main-button/main-button.component";
 import { AccountService } from './../../core/services/account.service';
 import { MembersService } from '../../core/services/members.service';
+import { IMember } from '../../core/Interfaces/IMember';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,7 @@ import { MembersService } from '../../core/services/members.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent  {
+export class NavbarComponent implements OnInit  {
 
   _Router = inject(Router);
   _ToastrService = inject(ToastrService);
@@ -25,6 +26,10 @@ export class NavbarComponent  {
   IsLoggedIn:Signal<boolean> = computed(()=> this._AccountService.CurrentUser() !== null);
   showDropdown:WritableSignal<boolean> = signal(false);
  
+  ngOnInit(): void {
+    this._MembersService.loadMember();
+  }
+
  
   toggle():void{
     this.showDropdown.update(prev => !prev);
