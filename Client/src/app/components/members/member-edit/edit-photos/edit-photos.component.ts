@@ -1,13 +1,12 @@
 import { DecimalPipe, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../../environments/environment';
 import { IMember } from '../../../../core/Interfaces/IMember';
+import { IPhoto } from '../../../../core/Interfaces/IPhoto';
 import { AccountService } from '../../../../core/services/account.service';
 import { MembersService } from '../../../../core/services/members.service';
-import { IPhoto } from '../../../../core/Interfaces/IPhoto';
-import { tap } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 
 
 

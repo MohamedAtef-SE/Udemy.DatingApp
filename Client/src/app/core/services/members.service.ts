@@ -14,7 +14,10 @@ import { AccountService } from './account.service';
 export class MembersService {
 
   constructor(private _HttpClient:HttpClient) {
-    
+    // don't invoke this method in service because its depend on
+    // CurrentUser() who initiate on AppComponent and Services
+    // in Angular built before components.
+    //this.loadMember();
   }
 
  
@@ -141,7 +144,7 @@ export class MembersService {
   }
 
   loadMember = ()=>{
-    console.log("loading...")
+    console.log("loading member...")
     const user = this._AccountService.CurrentUser();
     console.log("USERNAME: ",user?.username)
     if(!user) return;
