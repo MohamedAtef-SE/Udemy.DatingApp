@@ -1,5 +1,5 @@
 import { Component, computed, HostListener, inject, input, InputSignal, OnInit, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
-import { IMember, IMemberUpdateForm } from '../../../../core/Interfaces/IMember';
+import { IMember, IMemberUpdateForm } from '../../../../core/Models/IMember';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService } from '../../../../core/services/members.service';
@@ -42,7 +42,6 @@ export class EditProfileComponent {
     }
     this._MembersService.updateMember(updatedMember).subscribe({
       next:(res)=>{
-        console.log(res)
         this._ToastrService.success("Profile updated successfully")
         this._Router.navigate([`members/${this.Member().userName}`])
       }

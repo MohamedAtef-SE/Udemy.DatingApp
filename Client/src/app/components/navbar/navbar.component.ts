@@ -2,11 +2,10 @@ import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } f
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ILoginForm, ILoginResponse } from '../../core/Interfaces/Models';
+import { ICurrentUser, ILoginForm } from '../../core/Models/Models';
+import { MembersService } from '../../core/services/members.service';
 import { MainButtonComponent } from "../buttons/main-button/main-button.component";
 import { AccountService } from './../../core/services/account.service';
-import { MembersService } from '../../core/services/members.service';
-import { IMember } from '../../core/Interfaces/IMember';
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +21,7 @@ export class NavbarComponent implements OnInit  {
   _MembersService = inject(MembersService);
   model:WritableSignal<ILoginForm> = signal({} as ILoginForm);
   private readonly _AccountService = inject(AccountService);
-  UserData:Signal<ILoginResponse | null> = computed(()=> this._AccountService.CurrentUser())
+  UserData:Signal<ICurrentUser | null> = computed(()=> this._AccountService.CurrentUser())
   IsLoggedIn:Signal<boolean> = computed(()=> this._AccountService.CurrentUser() !== null);
   showDropdown:WritableSignal<boolean> = signal(false);
  
@@ -38,7 +37,7 @@ export class NavbarComponent implements OnInit  {
   
 loginSubmit() {
 this._AccountService.login(this.model()).subscribe({
-  next: (res:ILoginResponse) => {
+  next: (res:ICurrentUser) => {
     this._ToastrService.success(`Hello 👋 ${res.username}`,"DatingApp")
     this._Router.navigateByUrl('/members');
     this._MembersService.loadMember();

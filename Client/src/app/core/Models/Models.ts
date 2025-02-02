@@ -15,14 +15,13 @@ export interface IRegisterForm extends ILoginForm {
     "country":string
 }
 
-export interface ILoginResponse{
-    "knownAs":string
+export interface ICurrentUser{
+    "knownAs":string,
+    "gender":string,
     "username": string,
     "token": string,
     "photoURL"?: string
 }
-
-export interface IRegisterResponse extends ILoginResponse {}
 
 export interface IHttpErrorResponse{
     "headers": {

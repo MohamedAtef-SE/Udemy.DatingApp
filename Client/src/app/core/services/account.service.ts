@@ -1,22 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ILoginForm, ILoginResponse, IRegisterForm, IRegisterResponse } from '../Interfaces/Models';
+import { ILoginForm, ICurrentUser, IRegisterForm } from '../Models/Models';
 import { environment } from '../../../environments/environment';
 import { MembersService } from './members.service';
-import { IMember } from '../Interfaces/IMember';
+import { IMember } from '../Models/IMember';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  CurrentUser: WritableSignal<ILoginResponse | null> = signal(null);
+  CurrentUser: WritableSignal<ICurrentUser | null> = signal(null);
 
   constructor(private _HttpClient:HttpClient) { }
 
   login(data:ILoginForm):Observable<any>{
-     return this._HttpClient.post<ILoginResponse>(`${environment.baseURL}/api/account/login`,data).pipe(
+     return this._HttpClient.post<ICurrentUser>(`${environment.baseURL}/api/account/login`,data).pipe(
       map(user => {
         if(user){
           localStorage.setItem('DateAppUserToken',JSON.stringify(user))
@@ -28,7 +28,7 @@ export class AccountService {
   }
 
   register(data:IRegisterForm):Observable<any>{
-    return this._HttpClient.post<IRegisterResponse>(`${environment.baseURL}/api/account/register`,data).pipe(
+    return this._HttpClient.post<ICurrentUser>(`${environment.baseURL}/api/account/register`,data).pipe(
       map((user) => {
         if(user){
           localStorage.setItem('user',JSON.stringify(user));

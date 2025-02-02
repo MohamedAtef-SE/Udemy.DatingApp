@@ -1,5 +1,5 @@
 import { Component, input, InputSignal, OnInit, Signal, signal, WritableSignal } from '@angular/core';
-import { IMember } from '../../../core/Interfaces/IMember';
+import { IMember } from '../../../core/Models/IMember';
 import { RouterLink } from '@angular/router';
 
 @Component({

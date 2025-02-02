@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IMember } from '../../../../core/Interfaces/IMember';
+import { IMember } from '../../../../core/Models/IMember';
 
 interface IAbout {
   KnownAs: string,

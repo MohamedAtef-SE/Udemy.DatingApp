@@ -41,6 +41,8 @@ namespace API.Extentions
 
             services.AddCors();
 
+            services.AddScoped<LogUserActivity>();
+
             services.AddScoped<ITokenService, TokenService>();
 
             services.AddScoped<IUserRepository, UserRepository>();
