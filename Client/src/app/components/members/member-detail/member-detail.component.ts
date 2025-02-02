@@ -1,14 +1,15 @@
 import { DatePipe } from '@angular/common';
 import { Component, HostListener, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { IMember } from '../../../core/Interfaces/IMember';
-import { IPhoto } from '../../../core/Interfaces/IPhoto';
+import { IMember } from '../../../core/Models/IMember';
+import { IPhoto } from '../../../core/Models/IPhoto';
 import { MembersService } from '../../../core/services/members.service';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [DatePipe,RouterLinkActive,RouterLink,RouterOutlet],
+  imports: [RouterLinkActive,RouterLink,RouterOutlet,TimeagoModule,DatePipe],
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.css'
 })

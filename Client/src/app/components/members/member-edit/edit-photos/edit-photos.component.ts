@@ -3,8 +3,8 @@ import { Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../../environments/environment';
-import { IMember } from '../../../../core/Interfaces/IMember';
-import { IPhoto } from '../../../../core/Interfaces/IPhoto';
+import { IMember } from '../../../../core/Models/IMember';
+import { IPhoto } from '../../../../core/Models/IPhoto';
 import { AccountService } from '../../../../core/services/account.service';
 import { MembersService } from '../../../../core/services/members.service';
 

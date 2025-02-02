@@ -1,6 +1,6 @@
 import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
-import { IPhoto } from '../../../../core/Interfaces/IPhoto';
+import { IPhoto } from '../../../../core/Models/IPhoto';
 
 @Component({
   selector: 'app-photos',

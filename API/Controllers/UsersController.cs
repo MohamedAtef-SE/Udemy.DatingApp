@@ -4,6 +4,7 @@ using API.Entities;
 using API.Extentions;
 using API.Interfaces.Repositories;
 using API.Interfaces.Services;
+using API.Pagination;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -15,9 +16,13 @@ namespace API.Controllers
     public class UsersController(IUserRepository _userRepository,IMapper _mapper,IPhotoService _photoService) : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
+        public async Task<ActionResult<PagedList<MemberDTO>>> GetUsers([FromQuery]UserQueryParams userParams)
         {
-            var users = await _userRepository.GetMembersAsync();
+            var username = User.GetUserName();
+            userParams.CurrentUsername = username;
+            var users = await _userRepository.GetMembersAsync(userParams);
+
+            Response.AddPaginationHeader<MemberDTO>(users);
 
             return Ok(users);
         }

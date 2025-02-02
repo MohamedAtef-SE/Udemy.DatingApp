@@ -6,7 +6,7 @@
            <div class="p-2">
             <p><span class="font-bold my-1">Location:</span> {{Member().city}}, {{Member().country}}</p>
             <p><span class="font-bold my-1">Age:</span> {{Member().age}}</p>
-            <p><span class="font-bold my-1">Last active:</span> {{Member().lastActive | date }}</p>
+            <p><span class="font-bold my-1">Last active:</span> {{Member().lastActive | timeago }}</p>
             <p><span class="font-bold my-1">Member since:</span> {{Member().created | date }}</p>
            </div>
            <div class="flex w-full my-5 justify-evenly">

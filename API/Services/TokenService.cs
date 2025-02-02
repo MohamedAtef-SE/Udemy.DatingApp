@@ -23,7 +23,8 @@ namespace API.Services
 
             List<Claim> privateClaims = new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier,user.UserName)
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                new Claim(ClaimTypes.Name,user.UserName)
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor()

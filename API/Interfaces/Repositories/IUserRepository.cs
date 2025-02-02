@@ -1,5 +1,6 @@
 ﻿using API.DTOs.members;
 using API.Entities;
+using API.Pagination;
 
 namespace API.Interfaces.Repositories
 {
@@ -8,7 +9,7 @@ namespace API.Interfaces.Repositories
         Task<IEnumerable<AppUser>> GetUsersAsync();
         Task<AppUser?> GetUserByIdAsync(int id);
         Task<AppUser?> GetUserByUsernameAsync(string username);
-        Task<IEnumerable<MemberDTO>> GetMembersAsync();
+        Task<PagedList<MemberDTO>> GetMembersAsync(UserQueryParams userParams);
         Task<MemberDTO?> GetMemberByIdAsync(int id);
         Task<MemberDTO?> GetMemberByUsernameAsync(string username);
         void Update(AppUser user);
