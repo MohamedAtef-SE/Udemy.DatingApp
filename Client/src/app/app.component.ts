@@ -5,6 +5,7 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { AccountService } from './core/services/account.service';
 import { NgxSpinnerComponent } from 'ngx-spinner';
 import { ICurrentUser } from './core/Models/Models';
+import { LikesService } from './core/services/likes.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { ICurrentUser } from './core/Models/Models';
 export class AppComponent {
 
   _AccountService = inject(AccountService);
+  _LikesService = inject(LikesService);
 
   ngOnInit(): void {
     initFlowbite();
@@ -27,6 +29,7 @@ export class AppComponent {
     if(userAsJSON){
       const user : ICurrentUser = JSON.parse(userAsJSON);
       this._AccountService.CurrentUser.set(user);
+      this._LikesService.getLikeIds();
     }
   }
 }

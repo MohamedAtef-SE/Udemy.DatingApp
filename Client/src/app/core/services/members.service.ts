@@ -1,12 +1,13 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { effect, inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { Observable, of, Subscription, tap } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { Observable, of, Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { IMember, IMemberUpdateForm } from '../Models/IMember';
 import { IPhoto } from '../Models/IPhoto';
-import { AccountService } from './account.service';
-import { PaginatedResult } from '../Models/Pagination';
 import { UserParams } from '../Models/userParams';
+import { AccountService } from './account.service';
+import { setPaginatedResponse, setPaginationHeader } from './paginationHelper';
+import { PaginationService } from './pagination.service';
 
 
 @Injectable({
@@ -16,6 +17,7 @@ import { UserParams } from '../Models/userParams';
 export class MembersService {
 
   constructor(private _HttpClient:HttpClient) {
+    
     // don't invoke this method in service because its depend on
     // CurrentUser() who initiate on AppComponent and Services
     // in Angular built before components.
@@ -25,8 +27,8 @@ export class MembersService {
  
 
   _AccountService = inject(AccountService);
+  _PaginatationService = inject(PaginationService);
   Member: WritableSignal<IMember> = signal({} as IMember);
-  paginatedResult:WritableSignal<PaginatedResult<IMember[]> | null> = signal(null)
   pickedUserparams:WritableSignal<UserParams | null> = signal(null)
   memberCache = new Map();
 
@@ -34,9 +36,9 @@ export class MembersService {
     
     const response = this.memberCache.get(Object.values(userParams).join('-'));
 
-    if(response) return this.setPaginatedResponse(response);
+    if(response) return setPaginatedResponse(response,this._PaginatationService.paginatedResult);
  
-    let params = this.setPaginationHeader(userParams);
+    let params = setPaginationHeader(userParams);
     params = params.append('gender',userParams.gender);
     params = params.append('maxAge',userParams.maxAge);
     params = params.append('minAge',userParams.minAge);
@@ -51,29 +53,15 @@ export class MembersService {
     return this._HttpClient.get<IMember[]>(`${environment.baseURL}/api/users`,{observe:'response',params})
     .subscribe({
       next: (response:HttpResponse<IMember[]>)=> {
-       this.setPaginatedResponse(response);
+       setPaginatedResponse<IMember>(response,this._PaginatationService.paginatedResult);
        this.memberCache.set(Object.values(userParams).join('-'),response);
       }
       })
   }
-
-  private setPaginatedResponse(response:HttpResponse<IMember[]>){
-    this.paginatedResult.set({
-      items: response.body as IMember[],
-      paginationHeader: JSON.parse(response.headers.get('Pagination')!)
-    })
+  setPaginationHeader(userParams: UserParams) {
+    throw new Error('Method not implemented.');
   }
-  private setPaginationHeader(userParams:UserParams) : HttpParams {
-    let params = new HttpParams();
-    let pageNumber = userParams.pageNumber;
-    let pageSize = userParams.pageSize;
 
-    if( pageNumber && pageSize){
-      params = params.append("pageNumber",pageNumber);
-      params = params.append("pageSize",pageSize);
-    }
-    return params;
-  }
 
   getMember(username:string):Observable<any>{
     const member:IMember | undefined = this.findCachedMember(username)

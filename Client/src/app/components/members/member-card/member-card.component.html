@@ -11,7 +11,7 @@
             <li class="bg-red-500 hover:bg-sky-700 rounded-lg cursor-pointer">
                 <i class="fa-solid fa-message text-white p-2 flex items-center justify-center"></i> 
             </li>
-            <li class="bg-red-500 hover:bg-sky-700 rounded-lg cursor-pointer">
+            <li (click)="toggleLike()" class="bg-red-500 hover:bg-sky-700 rounded-lg cursor-pointer">
                 <i class="fa-solid fa-heart text-white p-2 flex items-center justify-center"></i> 
             </li>
         </ul>
@@ -21,6 +21,11 @@
         <h5 class="text-lg my-1 font-semibold tracking-tight text-gray-700 dark:text-white">
             <i class="fa-solid fa-user fa-sm"></i>
             {{Member().knownAs}}, {{Member().age}}
+            @if(hasLiked()){
+                <div class="inline">
+                    <i class="fa-solid fa-heart text-red-500 fa-sm"></i>
+                </div>
+            }
         </h5>
         <p class="font-semibold text-gray-400">{{Member().city}}</p>
     </div>
