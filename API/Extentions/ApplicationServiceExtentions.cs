@@ -47,6 +47,8 @@ namespace API.Extentions
 
             services.AddScoped<IUserRepository, UserRepository>();
 
+            services.AddScoped<ILikesRepository, LikesRepository>();
+
             services.AddScoped<IPhotoService, PhotoService>();
        
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

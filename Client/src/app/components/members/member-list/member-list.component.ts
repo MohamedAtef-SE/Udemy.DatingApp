@@ -2,10 +2,11 @@ import { Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { IMember } from '../../../core/Models/IMember';
 import { MembersService } from '../../../core/services/members.service';
 import { MemberCardComponent } from '../member-card/member-card.component';
-import { PaginationComponent } from "./pagination/pagination.component";
+import { PaginationComponent } from "../../shared/pagination/pagination.component";
 import { AccountService } from '../../../core/services/account.service';
 import { UserParams } from '../../../core/Models/userParams';
 import { FormsModule } from '@angular/forms';
+import { PaginationService } from '../../../core/services/pagination.service';
 
 @Component({
   selector: 'app-member-list',
@@ -18,8 +19,9 @@ export class MemberListComponent implements OnInit {
 
   _MembersService = inject(MembersService);
   _AccountService = inject(AccountService);
+  _PaginationService = inject(PaginationService);
   userParams!:UserParams;
-  Members:Signal<IMember[] | undefined> = computed(()=> this._MembersService.paginatedResult()?.items);
+  Members:Signal<IMember[] | undefined> = computed(()=> this._PaginationService.paginatedResult()?.items);
   genderList = [{value:'male',display:'Males'},{value:'female',display:'Females'}]
   sortingList = 
   [
@@ -36,9 +38,7 @@ export class MemberListComponent implements OnInit {
       this.userParams = pickedUserParams;
     }
     
-    if(this._MembersService.paginatedResult() === null){
-      this._MembersService.getAllMembers(this.userParams);
-    }
+    this._MembersService.getAllMembers(this.userParams);
   }
 
   filterationSubmit(userParams: UserParams) {
