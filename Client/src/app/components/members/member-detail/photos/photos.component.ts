@@ -1,6 +1,7 @@
-import { Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { IPhoto } from '../../../../core/Models/IPhoto';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-photos',
@@ -11,18 +12,14 @@ import { IPhoto } from '../../../../core/Models/IPhoto';
 })
 export class PhotosComponent implements OnInit  {
 
-  Photos:WritableSignal<IPhoto[]> = signal([])
-  HideModel : WritableSignal<boolean> = signal(true);
+  _ActivatedRoute = inject(ActivatedRoute);
   Images: GalleryItem[] = [];
 
   ngOnInit():void{
-    //this.Photos.set(history.state.data)
-    history.state.data.map((p:IPhoto) => {
-      this.Images.push(new ImageItem({src: p.url,thumb: p.url}))
+    // comes from queryParams from member-detail.component.html
+    this._ActivatedRoute.queryParams.subscribe(param => {
+      let images:GalleryItem[] = JSON.parse(param['data'])
+      this.Images = images;
     })
   }
-
-  toggleModel = ()=> {
-    this.HideModel.update(prev => !prev);
-    }
 }
