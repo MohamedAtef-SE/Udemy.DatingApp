@@ -16,7 +16,7 @@ namespace API.Controllers
         public async Task<ActionResult<PagedList<MemberDTO>>> ToggleLike(int targetUserId)
         {
             var soruceUserId = User.GetUserId();
-            PagedList<MemberDTO>? members = null;
+            //PagedList<MemberDTO>? members = null;
             if (soruceUserId == targetUserId) return BadRequest("It's a Good to like yourself,but not in our DatingApp 😏");
             var likeExist = await _likesRepository.GetUserLikeAsync(soruceUserId, targetUserId);
             if (likeExist is not null)

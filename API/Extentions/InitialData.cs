@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,13 +15,15 @@ namespace API.Extentions
             using var scope = app.Services.CreateAsyncScope();
             var provider = scope.ServiceProvider;
             var dbContext = provider.GetRequiredService<DataContext>();
+            var userManager = provider.GetRequiredService<UserManager<AppUser>>();
+            var roleManager = provider.GetRequiredService<RoleManager<AppRole>>();
 
             // Update-Database
             await dbContext.Database.MigrateAsync();
 
             // Data Seeds
             
-            if (await dbContext.Users.AnyAsync()) return;
+            if (await userManager.Users.AnyAsync()) return;
 
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "DataSeeds", "UserSeedData.json");
 
@@ -34,16 +37,41 @@ namespace API.Extentions
 
                 if(users is null) return;
 
-                foreach (var user in users)
+                var roles = new List<AppRole>()
                 {
-                    using var hmac = new HMACSHA512();
-                    user.UserName = user.UserName.ToLower();
-                    user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd"));
-                    user.PasswordSalt = hmac.Key;
-                    await dbContext.Users.AddAsync(user);
+                    new(){Name = "Member"},
+                    new(){Name = "Admin"},
+                    new(){Name = "Moderator"}
+                };
+
+
+                foreach(var role in roles)
+                {
+                    await roleManager.CreateAsync(role);
                 }
 
-                await dbContext.SaveChangesAsync();
+                foreach (var user in users)
+                {
+                    //using var hmac = new HMACSHA512();
+                    //user.UserName = user.UserName.ToLower();
+                    //user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd"));
+                    //user.PasswordSalt = hmac.Key;
+                    await userManager.CreateAsync(user,"Pa$$w0rd");
+                    await userManager.AddToRoleAsync(user, "Member");
+                }
+
+                var admin = new AppUser()
+                {
+                    UserName = "admin",
+                    KnownAs = "Admin",
+                    Gender = "",
+                    City = "",
+                    Country = "",
+                    Created = DateTime.UtcNow   
+                };
+
+                await userManager.CreateAsync(admin, "Pa$$w0rd");
+                await userManager.AddToRolesAsync(admin, ["Admin", "Moderator"]);
             }
         }
     }

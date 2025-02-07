@@ -16,11 +16,12 @@ export interface IRegisterForm extends ILoginForm {
 }
 
 export interface ICurrentUser{
+    "username": string,
     "knownAs":string,
     "gender":string,
-    "username": string,
     "token": string,
-    "photoURL"?: string
+    "photoURL"?: string,
+    "roles"?:string[]
 }
 
 export interface IHttpErrorResponse{
