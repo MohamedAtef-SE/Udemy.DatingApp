@@ -6,11 +6,12 @@ import { ICurrentUser, ILoginForm } from '../../core/Models/Models';
 import { MembersService } from '../../core/services/members.service';
 import { MainButtonComponent } from "../buttons/main-button/main-button.component";
 import { AccountService } from './../../core/services/account.service';
+import { HasRoleDirective } from '../../core/directives/has-role.directive';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [FormsModule, RouterLink, MainButtonComponent,RouterLinkActive],
+  imports: [FormsModule, RouterLink, MainButtonComponent,RouterLinkActive,HasRoleDirective],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

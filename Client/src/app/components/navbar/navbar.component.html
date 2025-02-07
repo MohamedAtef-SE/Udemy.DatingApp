@@ -28,6 +28,11 @@
                         Messages
                     </a>
                 </li>
+                <li *appHasRole="['Admin','Moderator']">
+                    <a routerLink="/admin" routerLinkActive="bg-white text-red-500 bg-opacity-80 rounded" class="text-white font-bold px-4 py-2 cursor-pointer hover:bg-white hover:bg-opacity-50 hover:rounded">
+                        Admin
+                    </a>
+                </li>
             }
             <li>
                 <a routerLink="/errors" routerLinkActive="bg-white text-red-500 bg-opacity-80 rounded" class="text-white font-bold px-4 py-2 cursor-pointer hover:bg-white hover:bg-opacity-50 hover:rounded">

@@ -17,6 +17,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { authGuard } from './core/guards/auth-guard';
 import { preventUnsavedChangesGuard } from './core/guards/prevent-unsaved-changes.guard';
 import { memberDetailedResolver } from './core/resolvers/member-detailed.resolver';
+import { AdminPanelComponent } from './components/admin/admin-panel/admin-panel.component';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
     {path: '',redirectTo: '',pathMatch:'full'},
@@ -35,6 +37,7 @@ export const routes: Routes = [
         ]},
         {path: 'lists',component: ListsComponent},
         {path: 'messages', component: MessagesComponent},
+        {path:'admin',component:AdminPanelComponent,canActivate:[adminGuard]}
     ]},
     {path: 'errors',component: ErrorsComponent},
     {path: 'not-found',component: NotFoundComponent},
