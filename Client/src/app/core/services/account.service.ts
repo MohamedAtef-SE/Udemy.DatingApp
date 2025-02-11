@@ -2,15 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ICurrentUser, ILoginForm, IRegisterForm } from '../Models/Models';
+import { IUser, ILoginForm, IRegisterForm } from '../Models/Models';
 import { LikesService } from './likes.service';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  CurrentUser: WritableSignal<ICurrentUser | null> = signal(null);
+  constructor(private _HttpClient:HttpClient) { }
+
+  CurrentUser: WritableSignal<IUser | null> = signal(null);
   Roles:Signal<string[]> = computed(()=>{
     const user = this.CurrentUser();
     if(user && user.token){
@@ -20,15 +23,15 @@ export class AccountService {
     return [];
   })
 
-  constructor(private _HttpClient:HttpClient) { }
-
   _LikesService = inject(LikesService);
+  _PresenceService = inject(PresenceService);
 
   login(data:ILoginForm):Observable<any>{
-     return this._HttpClient.post<ICurrentUser>(`${environment.baseURL}/api/account/login`,data).pipe(
+     return this._HttpClient.post<IUser>(`${environment.baseURL}/account/login`,data).pipe(
       map(user => {
         if(user){
-          localStorage.setItem('DateAppUserToken',JSON.stringify(user))
+          localStorage.setItem('DateAppUser',JSON.stringify(user))
+          this._PresenceService.createHubConnection(user);
           this.CurrentUser.set(user);
           this._LikesService.getLikeIds();
         }
@@ -38,7 +41,7 @@ export class AccountService {
   }
 
   register(data:IRegisterForm):Observable<any>{
-    return this._HttpClient.post<ICurrentUser>(`${environment.baseURL}/api/account/register`,data).pipe(
+    return this._HttpClient.post<IUser>(`${environment.baseURL}/account/register`,data).pipe(
       map((user) => {
         if(user){
           localStorage.setItem('user',JSON.stringify(user));
@@ -50,7 +53,8 @@ export class AccountService {
   }
 
   logout():void{
-    localStorage.removeItem("DateAppUserToken");
+    localStorage.removeItem("DateAppUser");
+    this._PresenceService.stopHUbConnection();
     this.CurrentUser.set(null);
   }
 }

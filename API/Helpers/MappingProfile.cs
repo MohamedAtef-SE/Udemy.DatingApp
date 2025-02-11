@@ -31,7 +31,9 @@ namespace API.Helpers
                           src.Sender.Photos.FirstOrDefault(p => p.IsMain)!.URL)
                           );
 
-
+            //for read message date issue
+            CreateMap<DateTime,DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
+            CreateMap<DateTime?, DateTime?>().ConvertUsing(d => d.HasValue? DateTime.SpecifyKind(d.Value, DateTimeKind.Utc) : null );
 
         }
     }

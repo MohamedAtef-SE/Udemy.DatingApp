@@ -15,7 +15,7 @@ export interface IRegisterForm extends ILoginForm {
     "country":string
 }
 
-export interface ICurrentUser{
+export interface IUser{
     "username": string,
     "knownAs":string,
     "gender":string,

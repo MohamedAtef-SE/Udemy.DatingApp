@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 
 namespace API.Controllers
 {
-    public class AccountController(UserManager<AppUser> _userManager, SignInManager<AppUser> _signInManager, DataContext dbContext, IUserRepository _userRepository, ITokenService _tokenService, IMapper _mapper) : BaseApiController
+    public class AccountController(UserManager<AppUser> _userManager, SignInManager<AppUser> _signInManager, ITokenService _tokenService, IMapper _mapper) : BaseApiController
     {
         [HttpPost("register")] // {{BaseURL}}/api/account/register
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)

@@ -4,6 +4,7 @@ using API.Helpers;
 using API.Interfaces.Repositories;
 using API.Interfaces.Services;
 using API.Services;
+using API.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extentions
@@ -24,7 +25,7 @@ namespace API.Extentions
             //                                             .SelectMany(prop => prop.Value!.Errors)
             //                                             .Select(error => error.ErrorMessage)
             //                                             .ToList();
-                                                         
+
 
             //        var response = new ApiValidationException(400, errors);
 
@@ -52,8 +53,19 @@ namespace API.Extentions
             services.AddScoped<ILikesRepository, LikesRepository>();
 
             services.AddScoped<IPhotoService, PhotoService>();
-       
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddSignalR(configure =>
+            {
+                // Set a reasonable timeout interval (e.g., 30 seconds)
+                configure.ClientTimeoutInterval = TimeSpan.FromSeconds(10);
+
+                // Set a reasonable keep-alive interval (e.g., 15 seconds)
+                configure.KeepAliveInterval = TimeSpan.FromSeconds(5);
+            });
+
+            services.AddSingleton<PresenceTracker>();
 
             services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
 

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
-import { ICurrentUser } from '../../../core/Models/Models';
+import { IUser } from '../../../core/Models/Models';
 import { AdminService } from '../../../core/services/admin.service';
 import { RoleModalComponent } from "../../modals/role-modal/role-modal.component";
 
@@ -14,7 +14,7 @@ export class UserManagementComponent implements OnInit {
 
   
   _AdminService = inject(AdminService);
-  Users:WritableSignal<ICurrentUser[]> = signal([]);
+  Users:WritableSignal<IUser[]> = signal([]);
   @ViewChild(RoleModalComponent) modal: RoleModalComponent = new RoleModalComponent();
 
   ngOnInit(): void {
@@ -22,7 +22,7 @@ export class UserManagementComponent implements OnInit {
    
   }
 
-  getUpdatedUser(event: ICurrentUser) {
+  getUpdatedUser(event: IUser) {
     this.Users.update(prev => {
       prev.map(user => {
         if(user.username === event.username){
@@ -33,14 +33,14 @@ export class UserManagementComponent implements OnInit {
       return prev})  
   }
     
-  openModal(user:ICurrentUser){
+  openModal(user:IUser){
     this.modal.show(user);
   }
   
   getUsersWithRoles():void{
     console.log('Getting users')
     this._AdminService.getUsersWithRoles().subscribe({
-      next:(res:ICurrentUser[])=>{
+      next:(res:IUser[])=>{
         this.Users.set(res);
       }
     })

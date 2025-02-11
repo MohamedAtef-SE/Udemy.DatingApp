@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../core/services/account.service';
 import { MembersService } from '../../core/services/members.service';
 import { InputTextComponent } from "../forms/input-text/input-text.component";
-import { ICurrentUser } from '../../core/Models/Models';
+import { IUser } from '../../core/Models/Models';
 
 @Component({
   selector: 'app-register',
@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit {
     
     if(this.RegisterFG.valid){
       this._AccountService.register(this.RegisterFG.value).subscribe({
-        next: (res:ICurrentUser) =>{
+        next: (res:IUser) =>{
           this._ToastrService.success(`Welcome 😍 ${res.username},"DatingApp`);
           this._MemberService.loadMember();
           this._Router.navigate(['/members'])

@@ -18,7 +18,7 @@ export class LikesService {
   likeIds:WritableSignal<number[]> = signal([]);
 
   toggleLike(targetId:number):Observable<any>{
-    return this._HttpClient.post(`${environment.baseURL}/api/likes/${targetId}`,{})
+    return this._HttpClient.post(`${environment.baseURL}/likes/${targetId}`,{})
   }
 
   getLikes(likesParams:LikesParams){
@@ -26,7 +26,7 @@ export class LikesService {
     let params = setPaginationHeader(likesParams);
     params = params.append('predicate',likesParams.predicate)
     
-    return this._HttpClient.get<IMember[]>(`${environment.baseURL}/api/likes`,{observe:'response',params}).subscribe({
+    return this._HttpClient.get<IMember[]>(`${environment.baseURL}/likes`,{observe:'response',params}).subscribe({
       next:(res:HttpResponse<IMember[]>)=>{
         
         setPaginatedResponse<IMember>(res,this._PaginationService.paginatedResult)
@@ -36,7 +36,7 @@ export class LikesService {
   }
 
   getLikeIds():Subscription{
-    return this._HttpClient.get<number[]>(`${environment.baseURL}/api/likes/list`).subscribe({
+    return this._HttpClient.get<number[]>(`${environment.baseURL}/likes/list`).subscribe({
       next:(res:number[])=>{
         this.likeIds.set(res);
       }

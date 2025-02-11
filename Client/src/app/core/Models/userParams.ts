@@ -1,4 +1,4 @@
-import { ICurrentUser } from "./Models";
+import { IUser } from "./Models";
 import { PaginationParams } from "./paginationParams";
 
 
@@ -10,7 +10,7 @@ export class UserParams extends PaginationParams {
     country: string | undefined = undefined; 
     orderBy: string = 'lastActive'
 
-    constructor(User:ICurrentUser){
+    constructor(User:IUser){
         super();
         this.gender = User.gender == 'female' ? 'male' : 'female'
     }
