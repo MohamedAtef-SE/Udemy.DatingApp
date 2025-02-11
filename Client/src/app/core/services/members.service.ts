@@ -50,7 +50,7 @@ export class MembersService {
     if(userParams.country !== undefined)
       params = params.append('city',userParams.country)
 
-    return this._HttpClient.get<IMember[]>(`${environment.baseURL}/api/users`,{observe:'response',params})
+    return this._HttpClient.get<IMember[]>(`${environment.baseURL}/users`,{observe:'response',params})
     .subscribe({
       next: (response:HttpResponse<IMember[]>)=> {
        setPaginatedResponse<IMember>(response,this._PaginatationService.paginatedResult);
@@ -67,7 +67,7 @@ export class MembersService {
     const member:IMember | undefined = this.findCachedMember(username)
     if(member) return of(member);
 
-    return this._HttpClient.get<IMember>(`${environment.baseURL}/api/users/${username}`);
+    return this._HttpClient.get<IMember>(`${environment.baseURL}/users/${username}`);
   }
 
   findCachedMember(username: string):IMember | undefined {
@@ -78,7 +78,7 @@ export class MembersService {
   }
   
   updateMember(data:IMemberUpdateForm): Observable<any>{
-    return this._HttpClient.put(`${environment.baseURL}/api/Users`,data).pipe(
+    return this._HttpClient.put(`${environment.baseURL}/Users`,data).pipe(
       // tap(()=> {
       //   const username = this._AccountService.CurrentUser()?.username;
       //   if(username !== undefined){
@@ -98,7 +98,7 @@ export class MembersService {
   }
 
   setMemberPhoto(photo:IPhoto):Observable<any>{
-    return this._HttpClient.put(`${environment.baseURL}/api/users/set-main-photo/${photo.id}`,{})
+    return this._HttpClient.put(`${environment.baseURL}/users/set-main-photo/${photo.id}`,{})
     .pipe(
       // tap(()=>{
       //   this.Members.update(members => members.map(m => {
@@ -139,7 +139,7 @@ export class MembersService {
   }
 
   deleteMemberPhoto(photo:IPhoto):Observable<any>{
-    return this._HttpClient.delete(`${environment.baseURL}/api/users/delete-photo/${photo.id}`)
+    return this._HttpClient.delete(`${environment.baseURL}/users/delete-photo/${photo.id}`)
     .pipe(
       // tap(()=>{
 
@@ -167,7 +167,7 @@ export class MembersService {
       //       }
       //     });
       //     const userJSON = JSON.stringify(this._AccountService.CurrentUser());
-      //     localStorage.setItem("DateAppUserToken",userJSON)
+      //     localStorage.setItem("DateAppUser",userJSON)
       //   }
 
       //   // update all members list in case main profile pic deleted

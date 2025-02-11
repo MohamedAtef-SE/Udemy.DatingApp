@@ -1,7 +1,13 @@
 <section class="container p-10 grid grid-cols-4 gap-5">
     <div class="col-span-1 border rounded" >
         <img class="w-full rounded" src="{{Member().photoURL || './assets/images/default.webp'}}" [alt]="Member().knownAs">
-       <div class="p-2">
+       @if(isOnline()){
+        <div class="p-2 text-center text-green-400 font-semibold">
+            <i class="fa fa-user-circle"></i>
+            online
+        </div>
+       }
+        <div class="p-2">
         <p><span class="font-bold my-1">Location:</span> {{Member().city}}, {{Member().country}}</p>
         <p><span class="font-bold my-1">Age:</span> {{Member().age}}</p>
         <p><span class="font-bold my-1">Last active:</span> {{Member().lastActive | timeago }}</p>
@@ -39,7 +45,7 @@
                 </a>
             </li>
             <li class="w-full focus-within:z-10">
-                <a routerLinkActive="active" [routerLink]="['messages',{username:Member().userName}]" (click)="Clicked.set(true)" [queryParams]="{username: Member().userName}" class="inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
+                <a routerLinkActive="active" [routerLink]="['messages']" (click)="Clicked.set(true)" class="inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
                     Messages
                 </a>
             </li>

@@ -25,7 +25,7 @@ export const routes: Routes = [
     {path: '',component: HomeComponent},
     {path:'', canActivate: [authGuard],runGuardsAndResolvers:'always',children:[
         {path:'members',component: MemberListComponent},
-        {path: 'members/:username',component: MemberDetailComponent,resolve:{member: memberDetailedResolver},children:[
+        {path: 'members/:memberName',component: MemberDetailComponent,resolve:{member: memberDetailedResolver},children:[
             {path:'about',component: AboutComponent},
             {path:'interests',component: InterestsComponent},
             {path: 'photos',component: PhotosComponent},

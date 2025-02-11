@@ -44,7 +44,7 @@ export class EditPhotosComponent implements OnInit {
           currentUser.photoURL = photo.url
           this._AccountService.CurrentUser.set(currentUser);
           const userAsJSON = JSON.stringify(this._AccountService.CurrentUser());
-          localStorage.setItem("DateAppUserToken",userAsJSON)
+          localStorage.setItem("DateAppUser",userAsJSON)
         }
       }
     })
@@ -64,7 +64,7 @@ export class EditPhotosComponent implements OnInit {
 
     initializeUploader(){
       this.uploader = new FileUploader({
-        url: `${this.baseURL}/api/users/add-photo`,
+        url: `${this.baseURL}/users/add-photo`,
         authToken: `Bearer ${this._AccountService.CurrentUser()?.token}`,
         isHTML5: true,
         allowedFileType: ['image'],

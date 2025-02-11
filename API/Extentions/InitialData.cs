@@ -20,6 +20,8 @@ namespace API.Extentions
 
             // Update-Database
             await dbContext.Database.MigrateAsync();
+            // Reset the Connections if server is restart
+            await dbContext.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
 
             // Data Seeds
             

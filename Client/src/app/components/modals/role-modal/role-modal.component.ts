@@ -1,5 +1,5 @@
 import { Component, inject, input, InputSignal, signal, WritableSignal, computed, OnInit, Signal, Input, Output, EventEmitter } from '@angular/core';
-import { ICurrentUser } from '../../../core/Models/Models';
+import { IUser } from '../../../core/Models/Models';
 import { AccountService } from '../../../core/services/account.service';
 import { AdminService } from '../../../core/services/admin.service';
 
@@ -15,13 +15,13 @@ export class RoleModalComponent {
   
   _AccountService = inject(AccountService);
   _AdminService = inject(AdminService);
-  User: WritableSignal<ICurrentUser> = signal({} as ICurrentUser);
+  User: WritableSignal<IUser> = signal({} as IUser);
   username = '';
   hideModal:boolean = true;
   title:string = '';
   availableRoles:string[] =  ['Admin','Moderator','Member'];
   selectedRoles:WritableSignal<string[]> = signal([]);
-  @Output() UpdatedUser:EventEmitter<ICurrentUser> = new EventEmitter();
+  @Output() UpdatedUser:EventEmitter<IUser> = new EventEmitter();
   updateChecked(checkedValue:string){
     if(this.selectedRoles().includes(checkedValue)){
       this.selectedRoles.update(prevValue=>  prevValue.filter(r => r !== checkedValue))
@@ -45,7 +45,7 @@ export class RoleModalComponent {
   })
   }
 
-  show = (user:ICurrentUser)=> {
+  show = (user:IUser)=> {
     this.User.set(user);
     if(user.roles !== undefined){
       this.selectedRoles.set(user.roles)

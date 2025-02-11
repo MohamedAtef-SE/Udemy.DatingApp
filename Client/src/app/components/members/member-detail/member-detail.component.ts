@@ -1,11 +1,12 @@
 import { DatePipe } from '@angular/common';
-import { Component, HostListener, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, HostListener, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ImageItem } from 'ng-gallery';
 import { TimeagoModule } from 'ngx-timeago';
 import { IMember } from '../../../core/Models/IMember';
 import { IPhoto } from '../../../core/Models/IPhoto';
 import { MembersService } from '../../../core/services/members.service';
+import { PresenceService } from '../../../core/services/presence.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -19,14 +20,17 @@ export class MemberDetailComponent implements OnInit {
 
   _ActivatedRoute = inject(ActivatedRoute);
   _MembersService = inject(MembersService);
+  _PresenceService = inject(PresenceService);
   _Router = inject(Router);
   UserName:WritableSignal<string | null> = signal(null);
   Member: WritableSignal<IMember> = signal({} as IMember);
   Clicked:WritableSignal<boolean> = signal(false);
+  isOnline = computed(()=> this._PresenceService.OnlineUsers().includes(this.Member().userName))
   Images:ImageItem[] = []
   SerializedImages:string = "";
 
   ngOnInit():void{
+    // From Resolver
     this._ActivatedRoute.data.subscribe({
       next: data => {
         this.Member.set(data['member']);

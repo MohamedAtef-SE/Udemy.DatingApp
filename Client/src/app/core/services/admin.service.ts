@@ -12,10 +12,10 @@ export class AdminService {
 
 
   getUsersWithRoles():Observable<any>{
-    return this._HttpClient.get(`${environment.baseURL}/api/admin/users-with-roles`)
+    return this._HttpClient.get(`${environment.baseURL}/admin/users-with-roles`)
   }
 
   updateUserRoles(username:string,roles:string[]):Observable<any>{
-    return this._HttpClient.post<string[]>(`${environment.baseURL}/api/admin/edit/roles/${username}?roles=${roles}`,{});
+    return this._HttpClient.post<string[]>(`${environment.baseURL}/admin/edit/roles/${username}?roles=${roles}`,{});
   }
 }
