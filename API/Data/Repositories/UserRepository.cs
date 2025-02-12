@@ -92,10 +92,5 @@ namespace API.Data.Repositories
         {
             _dataContext.Users.Update(user);
         }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _dataContext.SaveChangesAsync() > 0;
-        }
     }
 }

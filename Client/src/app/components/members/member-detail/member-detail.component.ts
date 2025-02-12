@@ -1,8 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, HostListener, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ImageItem } from 'ng-gallery';
 import { TimeagoModule } from 'ngx-timeago';
+import { ToastrService } from 'ngx-toastr';
 import { IMember } from '../../../core/Models/IMember';
 import { IPhoto } from '../../../core/Models/IPhoto';
 import { MembersService } from '../../../core/services/members.service';
@@ -21,6 +22,7 @@ export class MemberDetailComponent implements OnInit {
   _ActivatedRoute = inject(ActivatedRoute);
   _MembersService = inject(MembersService);
   _PresenceService = inject(PresenceService);
+  _ToastrService = inject(ToastrService);
   _Router = inject(Router);
   UserName:WritableSignal<string | null> = signal(null);
   Member: WritableSignal<IMember> = signal({} as IMember);
@@ -42,15 +44,8 @@ export class MemberDetailComponent implements OnInit {
     })
   }
 
-// Display Default Message if user pressed on BACK Browser Button with no tab selected yet!!
-@HostListener('window:popstate',['$event']) onPopState(event:any){
-  const UrlToArray = event.currentTarget.location.href.split('/');
-  const URLPathTail = event.currentTarget.location.href.split('/')[UrlToArray.length - 1];
-  if(URLPathTail == this.UserName()){
-    this.Clicked.set(false);
-  }
-  
-}
+//Display Default Message if user pressed on BACK Browser Button with no tab selected yet!!
+
 
   setPhotos(photos: IPhoto[]) {
     this.Clicked.set(true);

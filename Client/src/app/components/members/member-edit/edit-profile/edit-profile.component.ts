@@ -1,9 +1,9 @@
-import { Component, computed, HostListener, inject, input, InputSignal, OnInit, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
-import { IMember, IMemberUpdateForm } from '../../../../core/Models/IMember';
+import { Component, computed, inject, Signal, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { MembersService } from '../../../../core/services/members.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { IMember, IMemberUpdateForm } from '../../../../core/Models/IMember';
+import { MembersService } from '../../../../core/services/members.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -23,14 +23,6 @@ export class EditProfileComponent {
   @ViewChild('editForm') editForm? : NgForm
   
 
-  @HostListener('window:beforeunload',['$event']) notify(event:any){
-    if(this.editForm?.dirty){
-      event.returnValue = true;
-    }
-    else{
-      event.returnValue = false;
-    }
-  }
 
   updateSubmit() {
     const updatedMember : IMemberUpdateForm = {

@@ -61,10 +61,5 @@ namespace API.Data.Repositories
         {
             _dbContext.Likes.Remove(like);
         }
-
-        public async Task<bool> SaveChangesAsync()
-        {
-            return await _dbContext.SaveChangesAsync() > 0;
-        }
     }
 }
