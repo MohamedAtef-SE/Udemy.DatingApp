@@ -1,4 +1,6 @@
-<section class="container w-3/4 mx-auto rounded-xl bg-white p-10"> 
+<section #scrollMe
+style="overflow: scroll; max-height: 500px; scroll-behavior: smooth;"
+class="container w-3/4 mx-auto rounded-xl bg-white p-10"> 
  @if(MessageThread().length == 0){
     <p class="text-gray-400 text-2xl text-start">Say Hi!👋</p>
  }@else{

@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnDestroy, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, computed, ElementRef, inject, OnDestroy, OnInit, Renderer2, signal, ViewChild, WritableSignal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TimeagoModule } from 'ngx-timeago';
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './member-messages.component.html',
   styleUrl: './member-messages.component.css'
 })
-export class MemberMessagesComponent implements OnInit, OnDestroy {
+export class MemberMessagesComponent implements OnInit,AfterViewInit,OnDestroy {
 
   _MessageService = inject(MessageService);
   _ActivatedRoute = inject(ActivatedRoute);
@@ -23,15 +23,13 @@ export class MemberMessagesComponent implements OnInit, OnDestroy {
   MessageContent:WritableSignal<string> = signal('');
   _ToastrService = inject(ToastrService);
   @ViewChild('messageForm') messageForm?:NgForm;
-
-
+  @ViewChild('scrollMe') scrollContainer?:any
 
 
   ngOnInit(): void {
     this._ActivatedRoute.parent?.paramMap.subscribe({
       next: params => {
         const memberName = params.get("memberName");
-        console.log("RecipientNAme: ",memberName)
         if(memberName){
           this.OtherUserName.set(memberName)
           this.loadThreadMessage();
@@ -40,16 +38,30 @@ export class MemberMessagesComponent implements OnInit, OnDestroy {
     });
   }
 
+  sendMessage(){
+    this._MessageService.sendMessage(this.OtherUserName(),this.MessageContent()).then(()=>{
+      this.messageForm?.reset();
+      this.scrollToBottom();
+    })
+  }
+
+  ngAfterViewInit() {
+    setTimeout(()=>{
+      this.scrollToBottom();
+    },500)
+  }
+
+  private scrollToBottom(){
+    if(this.scrollContainer){
+      console.log("scroll to bottom............")
+      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+    }
+  }
+
   loadThreadMessage():void{
     const user = this._AccountService.CurrentUser();
     if(!user) return;
     this._MessageService.createHubConnection(user,this.OtherUserName());
-  }
-
-  sendMessage(){
-    this._MessageService.sendMessage(this.OtherUserName(),this.MessageContent()).then(()=>{
-      this.messageForm?.reset();
-    })
   }
 
   ngOnDestroy(): void {

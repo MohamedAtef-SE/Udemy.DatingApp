@@ -64,7 +64,7 @@ namespace API.Data.Repositories
                 message.DateRead = DateTime.UtcNow;
             }
 
-            var isUpdated = await SaveAllAsync();
+            //var isUpdated = await SaveAllAsync();
 
             return _mapper.Map<IEnumerable<MessageDTO>>(messages);
         }
@@ -77,10 +77,6 @@ namespace API.Data.Repositories
         public void DeleteMessage(Message message)
         {
             _dbContext.Remove(message);
-        }
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _dbContext.SaveChangesAsync() > 0;
         }
 
         public void AddGroup(Group group)

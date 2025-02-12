@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { NgxSpinnerComponent } from 'ngx-spinner';
 import { NavbarComponent } from "./components/navbar/navbar.component";
@@ -20,10 +20,17 @@ export class AppComponent {
   _AccountService = inject(AccountService);
   _LikesService = inject(LikesService);
   _PresenceService = inject(PresenceService);
+  _Router = inject(Router);
 
   ngOnInit(): void {
     initFlowbite();
     this.getUser();
+
+    this._Router.events.subscribe(event => {
+      if(event instanceof NavigationEnd){
+        window.scrollTo({top: 0, behavior: 'smooth'})
+      }
+    })
   }
 
   getUser():void{

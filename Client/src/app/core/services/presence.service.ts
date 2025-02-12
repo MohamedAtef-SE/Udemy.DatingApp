@@ -45,7 +45,7 @@ export class PresenceService {
         this._ToastrService.info(`${knownAs} has sent you a new message! Click me to see it`)
                            .onTap
                            .pipe(take(1))
-                           .subscribe(()=> this._Router.navigateByUrl(`/members/${username}/messages?username=${username}`) )
+                           .subscribe(()=> this._Router.navigateByUrl(`/members/${username}/messages`) )
       })
   }
 

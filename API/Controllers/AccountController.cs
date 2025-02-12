@@ -1,14 +1,11 @@
 ﻿using API.Controllers._common;
-using API.Data;
 using API.DTOs.auth;
 using API.Entities;
-using API.Interfaces.Repositories;
 using API.Interfaces.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
 
 namespace API.Controllers
 {

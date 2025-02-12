@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Data.Repositories;
 using API.Helpers;
+using API.Interfaces;
 using API.Interfaces.Repositories;
 using API.Interfaces.Services;
 using API.Services;
@@ -50,6 +51,8 @@ namespace API.Extentions
 
             services.AddScoped<IMessageRepository, MessageRepository>();
 
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
+
             services.AddScoped<ILikesRepository, LikesRepository>();
 
             services.AddScoped<IPhotoService, PhotoService>();
@@ -58,10 +61,10 @@ namespace API.Extentions
 
             services.AddSignalR(configure =>
             {
-                // Set a reasonable timeout interval (e.g., 30 seconds)
+                // default (30 seconds)
                 configure.ClientTimeoutInterval = TimeSpan.FromSeconds(10);
 
-                // Set a reasonable keep-alive interval (e.g., 15 seconds)
+                // default (15 seconds)
                 configure.KeepAliveInterval = TimeSpan.FromSeconds(5);
             });
 
