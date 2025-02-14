@@ -2,7 +2,7 @@
     @for(photo of Member().photos;track photo.id){
         <div [class.main-photo]="photo.isMain" class="col-span-1 cursor-pointer rounded relative">
         <img (click)="changeProfilePicture(photo)" class="w-full rounded p-0" src="{{photo.url}}" alt="picture of user">
-        <button (click)="deletePhoto(photo)" class="absolute top-2 right-2 cursor-pointer rounded-full bg-red-500">
+        <button (click)="deletePhoto(photo)" class="absolute top-2 right-2 cursor-pointer rounded-full bg-sky-500">
             <i class="fa-solid fa-close fa-2xl w-5 h-5 p-1 text-white"></i>
         </button>
     </div>
@@ -56,7 +56,7 @@
                     <div class="progress-bar" role="progressbar" ></div>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
-                    <div class="bg-red-500 h-1.5 rounded-full dark:bg-blue-500" style="width: 45%" [ngStyle]="{ 'width': uploader?.progress + '%' }"></div>
+                    <div class="bg-sky-500 h-1.5 rounded-full dark:bg-blue-500" style="width: 45%" [ngStyle]="{ 'width': uploader?.progress + '%' }"></div>
                   </div>
             </div>
            <div class="flex justify-evenly items-center my-5">
@@ -68,7 +68,7 @@
             (click)="uploader?.cancelAll()" [disabled]="!uploader?.isUploading">
         <i class="fa fa-ban"></i> Cancel all
     </button>
-    <button type="button" class="bg-red-600 cursor-pointer hover:bg-red-700 rounded px-4 py-2 text-white"
+    <button type="button" class="bg-sky-600 cursor-pointer hover:bg-sky-700 rounded px-4 py-2 text-white"
             (click)="uploader?.clearQueue()" [disabled]="!uploader?.queue?.length">
         <i class="fa fa-trash"></i> Remove all
     </button>

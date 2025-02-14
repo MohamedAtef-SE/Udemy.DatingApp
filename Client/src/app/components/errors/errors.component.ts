@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { AccountService } from '../../core/services/account.service';
 
 @Component({
   selector: 'app-errors',
@@ -10,8 +11,9 @@ import { environment } from '../../../environments/environment';
   styleUrl: './errors.component.css'
 })
 export class ErrorsComponent {
-
+  
   _HttpClient = inject(HttpClient);
+  _AccountService = inject(AccountService);
   ValidationErrors:string[] = [];
 
   getBadRequest():void{

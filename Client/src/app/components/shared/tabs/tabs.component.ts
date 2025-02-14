@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { UserManagementComponent } from "../../admin/user-management/user-management.component";
-import { PhotoManagementComponent } from "../../admin/photo-management/photo-management.component";
 import { HasRoleDirective } from '../../../core/directives/has-role.directive';
 
 @Component({
   selector: 'app-tabs',
   standalone: true,
-  imports: [UserManagementComponent, PhotoManagementComponent,HasRoleDirective],
+  imports: [UserManagementComponent,HasRoleDirective],
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.css'
 })

@@ -1,6 +1,7 @@
 ﻿using API.Controllers._common;
 using API.DTOs.auth;
 using API.Entities;
+using API.Exceptions;
 using API.Interfaces.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -63,7 +64,7 @@ namespace API.Controllers
             //var correctedPassword = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
 
             // await _signInManager.SignInAsync(user, false); if you work with cookie base not with JWT
-            if (!result.Succeeded) return BadRequest("Invalid login");
+            if (!result.Succeeded) return BadRequest(new {message =  "Invalid login" });
             UserDTO userDTO = new()
             {
                 Username = user.UserName!,

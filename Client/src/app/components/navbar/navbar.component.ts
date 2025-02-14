@@ -2,16 +2,15 @@ import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } f
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IUser, ILoginForm } from '../../core/Models/Models';
-import { MembersService } from '../../core/services/members.service';
-import { MainButtonComponent } from "../buttons/main-button/main-button.component";
-import { AccountService } from './../../core/services/account.service';
 import { HasRoleDirective } from '../../core/directives/has-role.directive';
+import { ILoginForm, IUser } from '../../core/Models/Models';
+import { MembersService } from '../../core/services/members.service';
+import { AccountService } from './../../core/services/account.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [FormsModule, RouterLink, MainButtonComponent,RouterLinkActive,HasRoleDirective],
+  imports: [FormsModule, RouterLink,RouterLinkActive,HasRoleDirective],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -35,25 +34,10 @@ export class NavbarComponent implements OnInit  {
     this.showDropdown.update(prev => !prev);
   }
 
-  
-loginSubmit() {
-this._AccountService.login(this.model()).subscribe({
-  next: (res:IUser) => {
-    this._ToastrService.success(`Hello 👋 ${res.username}`,"DatingApp")
-    this._Router.navigateByUrl('/members');
-    this._MembersService.loadMember();
-    this.toggle();
-  },
-  error:(err)=>{
-    this._ToastrService.error(err.error.message,"DatingApp 😬")
-  }
-})
-}
-
 logout():void{
   this._AccountService.logout();
   this.toggle();
-  this._ToastrService.info(`we miss you already 😔 `,"DatingApp")
+  this._ToastrService.info(`we miss you already 😔 `,"Homies")
   this._Router.navigateByUrl('/');
 
 }

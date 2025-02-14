@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subscription, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { IMember, IMemberUpdateForm } from '../Models/IMember';
 import { IPhoto } from '../Models/IPhoto';
@@ -100,85 +100,59 @@ export class MembersService {
   setMemberPhoto(photo:IPhoto):Observable<any>{
     return this._HttpClient.put(`${environment.baseURL}/users/set-main-photo/${photo.id}`,{})
     .pipe(
-      // tap(()=>{
-      //   this.Members.update(members => members.map(m => {
-         
-      //     if(m.userName == this.Member().userName){
-      //       console.log("found photo in this user")
-      //       m.photoURL = photo.url
-      //       m.photos.map(p => {
-      //         if(p.url == photo.url){
-      //           p.isMain = true;
-      //         }
-      //         else{
-      //           p.isMain = false;
-      //         }
-      //         return p
-      //       })
-      //     }
-      //     return m;
-      //   }))
+       tap(()=>{
+        this.Member.update(prev => {
+          if(prev == null) return prev;
+          const updatedMember : IMember = JSON.parse(JSON.stringify(prev));
+          const photos = updatedMember.photos.map(p => {
+            if(p.isMain == true) p.isMain = false;
+            if(p.url == photo.url) p.isMain = true;
+            return p;
+          })
 
-      //   this.Member.update(prev => {
-      //     if(prev == null) return prev;
-      //     const updatedMember : IMember = JSON.parse(JSON.stringify(prev));
-      //     const photos = updatedMember.photos.map(p => {
-      //       if(p.isMain == true) p.isMain = false;
-      //       if(p.url == photo.url) p.isMain = true;
-      //       return p;
-      //     })
-
-      //     return {
-      //       ...updatedMember,
-      //       photos: photos,
-      //       photoURL: photo.url
-      //     }
-      //   })
-      // })
+          return {
+            ...updatedMember,
+            photos: photos,
+            photoURL: photo.url
+          }
+        })
+      })
     )
   }
 
   deleteMemberPhoto(photo:IPhoto):Observable<any>{
     return this._HttpClient.delete(`${environment.baseURL}/users/delete-photo/${photo.id}`)
     .pipe(
-      // tap(()=>{
+      tap(()=>{
 
-      //   this.Member.update(prev => {
-      //     if(prev == null) return prev;
-      //     const updatedMember : IMember = JSON.parse(JSON.stringify(prev));
+        this.Member.update(prev => {
+          if(prev == null) return prev;
+          const updatedMember : IMember = JSON.parse(JSON.stringify(prev));
 
-      //     // set default photo if profile picture was deleted
-      //     if(updatedMember.photoURL == photo.url){
-      //       updatedMember.photoURL = "./assets/images/default.webp"
-      //     }
-      //     return {
-      //       ...updatedMember,
-      //       photos: updatedMember.photos.filter(p => p.id !== photo.id)
-      //     }
-      //   })
+          // set default photo if profile picture was deleted
+          if(updatedMember.photoURL == photo.url){
+            updatedMember.photoURL = "./assets/images/default.webp"
+          }
+          return {
+            ...updatedMember,
+            photos: updatedMember.photos.filter(p => p.id !== photo.id)
+          }
+        })
 
-      //   if(this._AccountService.CurrentUser()?.photoURL == photo.url){
-      //      // update-CurrentUser()
-      //      this._AccountService.CurrentUser.update(prev =>{
-      //       if(prev == null) return prev;
-      //       return{
-      //       ...prev,
-      //       photoURL: "./assets/images/default.webp"
-      //       }
-      //     });
-      //     const userJSON = JSON.stringify(this._AccountService.CurrentUser());
-      //     localStorage.setItem("DateAppUser",userJSON)
-      //   }
+        if(this._AccountService.CurrentUser()?.photoURL == photo.url){
+           // update-CurrentUser()
+           this._AccountService.CurrentUser.update(prev =>{
+            if(prev == null) return prev;
+            return{
+            ...prev,
+            photoURL: "./assets/images/default.webp"
+            }
+          });
+          const userJSON = JSON.stringify(this._AccountService.CurrentUser());
+          localStorage.setItem("DateAppUser",userJSON)
+        }
 
-      //   // update all members list in case main profile pic deleted
-      //   this.Members.update(members => members.map(m => {
-      //     if(m.photoURL == photo.url && photo.isMain){
-      //       m.photoURL = "../../../assets/images/default.webp"
-      //     }
-
-      //     return m;
-      //   }))
-      // })
+      })
     )
   }
 

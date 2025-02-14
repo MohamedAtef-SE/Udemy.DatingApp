@@ -8,6 +8,7 @@ import { IMember } from '../../../core/Models/IMember';
 import { IPhoto } from '../../../core/Models/IPhoto';
 import { MembersService } from '../../../core/services/members.service';
 import { PresenceService } from '../../../core/services/presence.service';
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-member-detail',
@@ -43,8 +44,6 @@ export class MemberDetailComponent implements OnInit {
       }
     })
   }
-
-//Display Default Message if user pressed on BACK Browser Button with no tab selected yet!!
 
 
   setPhotos(photos: IPhoto[]) {

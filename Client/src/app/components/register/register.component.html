@@ -2,17 +2,17 @@
 <form [formGroup]="RegisterFG" class="z-20 bg-white bg-opacity-50 p-5 rounded" (ngSubmit)="registerSubmit()" autocomplete="off">
     <div class="flex gap-5 flex-col">
         
-        <h2 class="font-semibold border-b-2 border-red-500 pb-3 text-2xl text-center text-red-500">
+        <h2 class="font-semibold border-b-2 border-sky-500 pb-3 text-2xl text-center text-sky-500">
             Sign up
         </h2>
 
         <div class="mb-3">
             <label class="ms-2">I am a: </label>
             <label class="mx-1">
-                <input class="focus:ring-0 text-red-500" type="radio" value="male" formControlName="gender"> Male
+                <input class="focus:ring-0 text-sky-500" type="radio" value="male" formControlName="gender"> Male
             </label>
             <label class="mx-1">
-                <input class="focus:ring-0 text-red-500" type="radio" value="female" formControlName="gender"> Female
+                <input class="focus:ring-0 text-sky-500" type="radio" value="female" formControlName="gender"> Female
             </label>
         </div>
 
@@ -51,7 +51,7 @@
         [label]="'Confirm Password'" 
         [type]="'password'"></app-input-text>
         <div>
-            <button  type="submit" class="font-semibold rounded px-5 py-2 mx-2 bg-red-500 hover:bg-red-700 text-white">
+            <button  type="submit" class="font-semibold rounded px-5 py-2 mx-2 bg-sky-500 hover:bg-sky-700 text-white">
                Register
             </button>
             

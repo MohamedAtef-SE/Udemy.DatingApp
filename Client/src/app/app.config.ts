@@ -9,9 +9,14 @@ import { headerInterceptor } from './core/interceptors/header.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ngxSpinnerInterceptor } from './core/interceptors/ngx-spinner.interceptor';
 import { TimeagoModule } from 'ngx-timeago';
+import { provideLottieOptions } from 'ngx-lottie';
+import player from 'lottie-web';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideLottieOptions({
+      player: () => import('lottie-web'),
+    }),
     provideHttpClient(withFetch(),withInterceptors([errorsInterceptor,headerInterceptor,ngxSpinnerInterceptor])),
     provideRouter(routes),
     provideAnimations(),

@@ -1,7 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
+import { AnimationItem } from 'lottie-web';
+import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { NgxSpinnerComponent } from 'ngx-spinner';
+import { FooterComponent } from "./components/footer/footer.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { IUser } from './core/Models/Models';
 import { AccountService } from './core/services/account.service';
@@ -11,7 +14,7 @@ import { PresenceService } from './core/services/presence.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent,NgxSpinnerComponent],
+  imports: [RouterOutlet, NavbarComponent, NgxSpinnerComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -21,7 +24,9 @@ export class AppComponent {
   _LikesService = inject(LikesService);
   _PresenceService = inject(PresenceService);
   _Router = inject(Router);
+  isLogedIn = computed(()=> this._AccountService.CurrentUser() != null)
 
+  
   ngOnInit(): void {
     initFlowbite();
     this.getUser();
@@ -42,8 +47,5 @@ export class AppComponent {
       this._LikesService.getLikeIds();
     }
   }
-
-  
-
  
 }

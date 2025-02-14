@@ -5,13 +5,13 @@
     <div class="overflow-hidden relative">
         <img class="rounded-t-lg w-full"  src="{{Member().photoURL || './assets/images/default.webp'}}" [alt]="Member().knownAs" />
         <ul class="w-full card-user-buttons flex flex-wrap justify-center items-center gap-3">
-            <li routerLink="/members/{{Member().userName}}" class="bg-red-500 hover:bg-sky-700 rounded-lg cursor-pointer">
+            <li routerLink="/members/{{Member().userName}}/about" [queryParams]="{Introduction: Member().introduction, KnownAs: Member().knownAs}" class="bg-sky-500 hover:bg-sky-700 rounded-lg cursor-pointer">
                 <i class="fa-solid fa-user text-white p-2 flex items-center justify-center"></i>
             </li>
-            <li [routerLink]="[Member().userName+'/messages']" class="bg-red-500 hover:bg-sky-700 rounded-lg cursor-pointer">
+            <li [routerLink]="[Member().userName+'/messages']" class="bg-sky-500 hover:bg-sky-700 rounded-lg cursor-pointer">
                 <i class="fa-solid fa-message text-white p-2 flex items-center justify-center"></i> 
             </li>
-            <li (click)="toggleLike()" class="bg-red-500 hover:bg-sky-700 rounded-lg cursor-pointer">
+            <li (click)="toggleLike()" class="bg-sky-500 hover:bg-sky-700 rounded-lg cursor-pointer">
                 <i class="fa-solid fa-heart text-white p-2 flex items-center justify-center"></i> 
             </li>
         </ul>
