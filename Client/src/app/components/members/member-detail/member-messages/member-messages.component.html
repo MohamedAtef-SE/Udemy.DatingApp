@@ -1,0 +1,48 @@
+<section #scrollMe
+style="overflow: scroll; max-height: 500px; scroll-behavior: smooth;"
+class="container w-3/4 mx-auto rounded-xl bg-white p-10"> 
+ @if(MessageThread().length == 0){
+    <p class="text-gray-400 text-2xl text-start">Say Hi!👋</p>
+ }@else{
+    @for(message of MessageThread();track message.id){
+        <div [class]="'flex items-start gap-2.5'+ (message.senderUserName == OtherUserName() ? 'transform scale-x-[-1]':'')">
+            <div [class]="message.senderUserName == OtherUserName() ? 'transform scale-x-[-1]':''">
+            <div class="flex justify-between items-center mb-2">
+                <div class="flex items-center gap-2">
+                    <img class="w-8 h-8 rounded-full" [src]="message.senderPhotoURL" alt="Jese image">
+                <span class="text-sm font-semibold text-gray-900">{{message.senderUserName}}</span>
+                </div>
+                <span class="text-sm font-normal text-gray-500">
+                    <i class="fa-regular text-gray-600 fa-clock"></i>
+                    {{message.messageSent | timeago}}
+                </span>
+            </div>
+             <div class="flex flex-col gap-1 w-full max-w-[320px]">
+                <div class="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl">
+                   <p class="text-sm font-normal text-gray-900">
+                     {{message.content}}
+                    </p>
+                </div>
+                <p [class]="(message.dateRead ? 'text-green-400':'text-sky-500') + ' text-sm font-normal m-0 text-end'">
+                    {{message.dateRead ? 'Read':'Unread'}}
+                </p>
+             </div>
+            </div>
+          </div>
+    }
+ }
+ <form #messageForm="ngForm" (ngSubmit)="sendMessage()">
+    <div class="my-5">
+        <input 
+        type="text"
+        required
+        name="messageContent"
+        [(ngModel)]="MessageContent" 
+        class="w-full focus:ring-0 focus:border-sky-500 text-gray-500 border-gray-200 py-2 px-4 rounded" 
+        placeholder="Send a private message...">
+        <button [disabled]="messageForm.invalid" class="rounded disabled:bg-gray-400 block ms-auto my-2 bg-sky-500 hover:bg-sky-700 px-4 py-2 text-white font-semibold text-sm">
+            Send
+        </button>
+    </div>
+ </form>
+</section>

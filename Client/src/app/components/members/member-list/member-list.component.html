@@ -1,8 +1,80 @@
+<section class="container">    
+    <form #form="ngForm" (ngSubmit)="filterationSubmit()">
+       <div class="flex flex-wrap justify-center items-center gap-6 mx-auto w-fit my-10">
+        <div class="columns-auto">
+            <label class="text-sm font-semibold me-1">Age From</label>
+            <input type="text" class="rounded focus:outline-none focus:ring-0 focus:border-sky-500 text-sky-500 w-14 h-10"
+            name="minAge"
+            [(ngModel)]="userParams.minAge">
+        </div>
 
-<section class="container p-10 grid grid-cols-4 md:grid-cols-6 gap-4">
+        <div class="columns-auto">
+            <label class="text-sm font-semibold me-1">Age To</label>
+            <input type="text" class="rounded focus:outline-none focus:ring-0 focus:border-sky-500 text-sky-500 w-14 h-10"
+            name="maxAge"
+            [(ngModel)]="userParams.maxAge">
+        </div>
+        
+        <div class="columns-auto">
+            <label class="text-sm font-semibold me-1">City</label>
+            <input type="text" class="rounded focus:outline-none focus:ring-0 focus:border-sky-500 text-sky-500 w-32 h-10"
+            name="city"
+            [(ngModel)]="userParams.city">
+        </div>
+
+       <div class="columns-auto">
+            <label class="text-sm font-semibold me-1">Country</label>
+            <input type="text" class="rounded focus:outline-none focus:ring-0 focus:border-sky-500 text-sky-500 w-32 h-10"
+            name="country"
+            [(ngModel)]="userParams.country">
+        </div>
+
+          <div class="columns-auto">
+            <label class="text-sm font-semibold me-1">Sort By</label>
+            <select class="rounded focus:outline-none focus:ring-0 focus:border-sky-500 text-sky-500 w-32 h-10"
+             [(ngModel)]="userParams.orderBy"
+              name="orderby">
+                <option value="lastActive">recent</option>
+                @for (sort of sortingList; track sort.value) {
+                    <option [value]="sort.value">{{sort.display}}</option>
+                }
+            </select>
+        </div>
+
+        <div class="columns-auto">
+            <label class="text-sm font-semibold me-1">Show</label>
+            <select class="rounded focus:outline-none focus:ring-0 focus:border-sky-500 text-sky-500 font-semibold text-sm w-32 h-10"
+                    name="gender"
+                    [(ngModel)]="userParams.gender">
+                @for(gender of genderList;track gender.value){
+                    <option [value]="gender.value">{{gender.display}}</option>
+                }
+            </select>
+        </div>
+        <div class="columns-auto grid grid-cols-2 gap-3">
+            <button type="submit" class="rounded bg-sky-600 text-white py-2 px-4 font-semibold hover:bg-sky-700">
+                Find your Homie
+            </button>
+            <button type="button" (click)="resetFilter()" class="w-fit rounded bg-sky-600 text-white py-2 px-4 font-semibold hover:bg-sky-700">
+                Reset filters
+            </button>
+        </div>   
+       </div>
+       
+    </form>
+    @if(Members()?.length){
+        <div class="p-10 grid md:grid-cols-6 gap-4 mx-auto">
    
-    @for(member of Members();track member.id){
-        <app-member-card [Member]="member"></app-member-card>
+            @for(member of Members();track member.id){
+                <app-member-card [Member]="member"></app-member-card>
+            }
+        </div>
+        <app-pagination></app-pagination>
     }
-
+    @else {
+        <div class="w-1/2 mx-auto mt-10">
+            <ng-lottie [options]="options" (animationCreated)="animationCreated($event)" /> 
+        </div>
+    }
 </section>
+

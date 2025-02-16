@@ -1,0 +1,23 @@
+<table class="w-full text-sm text-center  text-sky-600 ">
+    <thead class="text-xs text-sky-700 uppercase bg-sky-100">
+        <tr class="">
+            <th scope="col" class="px-6 py-3">Username</th>
+            <th scope="col" class="px-6 py-3">Active Roles</th>
+            <th scope="col" class="px-6 py-3"></th>
+        </tr>
+    </thead>
+    <tbody class="text-sm text-gray-500 capitalize">
+        @for(user of Users();track user.username){
+            <tr class="odd:bg-white even:bg-sky-50 border-b">
+                <td scope="row" class="px-6 py-4 font-medium  whitespace-nowrap">{{user.username}}</td>
+                <td scope="row" class="px-6 py-4 font-medium whitespace-nowrap">{{user.roles}}</td>
+                <td scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+                    <button (click)="openModal(user)" class="rounded px-4 py-2 outline outline-1 hover:bg-sky-600 hover:text-white bg-white outline-sky-600 text-sky-500">
+                        Edit Roles
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<app-role-modal (UpdatedUser)="getUpdatedUser($event)"></app-role-modal>

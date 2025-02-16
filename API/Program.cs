@@ -1,5 +1,7 @@
 using API.Extentions;
 using API.Middlewares;
+using CQRS.Application.Extentions;
+using CQRS.Infrastructure.SignalR;
 
 namespace API
 {
@@ -28,7 +30,7 @@ namespace API
                 app.UseSwaggerUI();
             }
 
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
                                .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
             app.UseAuthentication();
@@ -36,6 +38,8 @@ namespace API
 
             app.UseHttpsRedirection();
             app.MapControllers();
+            app.MapHub<PresenceHub>("hubs/presence"); // adding endpoint
+            app.MapHub<MessageHub>("hubs/message"); // adding endpoint
 
             await app.SeedAsync();
 

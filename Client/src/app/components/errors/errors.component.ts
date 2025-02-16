@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { AccountService } from '../../core/services/account.service';
 
 @Component({
   selector: 'app-errors',
@@ -10,12 +11,13 @@ import { environment } from '../../../environments/environment';
   styleUrl: './errors.component.css'
 })
 export class ErrorsComponent {
-
+  
   _HttpClient = inject(HttpClient);
+  _AccountService = inject(AccountService);
   ValidationErrors:string[] = [];
 
   getBadRequest():void{
-    this._HttpClient.get(`${environment.baseURL}/api/buggy/bad-request`).subscribe({
+    this._HttpClient.get(`${environment.baseURL}/buggy/bad-request`).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);
@@ -28,7 +30,7 @@ export class ErrorsComponent {
   }
 
   getAuthError():void{
-    this._HttpClient.get(`${environment.baseURL}/api/buggy/auth`).subscribe({
+    this._HttpClient.get(`${environment.baseURL}/buggy/auth`).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);
@@ -41,7 +43,7 @@ export class ErrorsComponent {
   }
 
   getNotFound():void{
-    this._HttpClient.get(`${environment.baseURL}/api/buggy/not-found`).subscribe({
+    this._HttpClient.get(`${environment.baseURL}/buggy/not-found`).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);
@@ -54,7 +56,7 @@ export class ErrorsComponent {
   }
 
   getValidationError():void{
-    this._HttpClient.post(`${environment.baseURL}/api/buggy/validation`,{}).subscribe({
+    this._HttpClient.post(`${environment.baseURL}/buggy/validation`,{}).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);
@@ -67,7 +69,7 @@ export class ErrorsComponent {
   }
 
   getServerException():void{
-    this._HttpClient.get(`${environment.baseURL}/api/buggy/server-error`).subscribe({
+    this._HttpClient.get(`${environment.baseURL}/buggy/server-error`).subscribe({
       next:(res)=>{
         console.log("success:")
         console.log(res);

@@ -1,27 +1,64 @@
-
-<form #regiserForm="ngForm" (ngSubmit)="registerSubmit()" autocomplete="off">
+<div class="register w-full relative min-h-screen flex justify-center items-center flex-col gap-5 p-10">    
+<form [formGroup]="RegisterFG" class="z-20 bg-white bg-opacity-50 p-5 rounded" (ngSubmit)="registerSubmit()" autocomplete="off">
     <div class="flex gap-5 flex-col">
-        <h2 class="font-semibold border-b pb-3 text-2xl text-center text-sky-600">Sign up</h2>
-        <div>
-            <input name="username" [(ngModel)]="model.username" type="text" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-            placeholder="Username"
-            required />
-        </div>
-         
-        <div>
-            <input name="password" [(ngModel)]="model.password" type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Password"
-            required />
+        
+        <h2 class="font-semibold border-b-2 border-sky-500 pb-3 text-2xl text-center text-sky-500">
+            Sign up
+        </h2>
+
+        <div class="mb-3">
+            <label class="ms-2">I am a: </label>
+            <label class="mx-1">
+                <input class="focus:ring-0 text-sky-500" type="radio" value="male" formControlName="gender"> Male
+            </label>
+            <label class="mx-1">
+                <input class="focus:ring-0 text-sky-500" type="radio" value="female" formControlName="gender"> Female
+            </label>
         </div>
 
+        <app-input-text
+        [formControl]="$any(RegisterFG.get('username'))"
+        [label]="'Username'" 
+        [type]="'text'"></app-input-text>
+
+        <app-input-text
+        [formControl]="$any(RegisterFG.get('knownAs'))"
+        [label]="'Known as'" 
+        [type]="'text'"></app-input-text>
+
+        <app-input-text
+        [formControl]="$any(RegisterFG.get('dateOfBirth'))"
+        [label]="'Date Of Birth'" 
+        [type]="'date'"></app-input-text>
+
+        <app-input-text
+        [formControl]="$any(RegisterFG.get('city'))"
+        [label]="'City'" 
+        [type]="'text'"></app-input-text>
+
+        <app-input-text
+        [formControl]="$any(RegisterFG.get('country'))"
+        [label]="'Country'" 
+        [type]="'text'"></app-input-text>
+
+        <app-input-text
+        [formControl]="$any(RegisterFG.get('password'))"
+        [label]="'Password'" 
+        [type]="'password'"></app-input-text>
+
+        <app-input-text
+        [formControl]="$any(RegisterFG.get('confirmPassword'))"
+        [label]="'Confirm Password'" 
+        [type]="'password'"></app-input-text>
         <div>
-            <button  type="submit" class="font-semibold rounded px-5 py-2 mx-2 bg-sky-600 hover:bg-sky-700 text-white">
+            <button  type="submit" class="font-semibold rounded px-5 py-2 mx-2 bg-sky-500 hover:bg-sky-700 text-white">
                Register
             </button>
             
-            <button (click)="BackToHome()"  type="button" class="font-semibold rounded px-5 py-2 mx-2  hover:outline-gray-400 hover:outline text-gray-400">
+            <button (click)="BackToHome()"  type="button" class="font-semibold rounded px-5 py-2 mx-2 outline-white outline-2 outline hover:outline-gray-300 hover:outline hover:text-gray-300 text-white">
                 Cancel
             </button>
           </div>
     </div>
 </form>
+</div>

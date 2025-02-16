@@ -2,51 +2,42 @@ import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } f
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ILoginForm, ILoginResponse } from '../../core/Interfaces/Models';
-import { MainButtonComponent } from "../buttons/main-button/main-button.component";
+import { HasRoleDirective } from '../../core/directives/has-role.directive';
+import { ILoginForm, IUser } from '../../core/Models/Models';
+import { MembersService } from '../../core/services/members.service';
 import { AccountService } from './../../core/services/account.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [FormsModule, RouterLink, MainButtonComponent,RouterLinkActive],
+  imports: [FormsModule, RouterLink,RouterLinkActive,HasRoleDirective],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent  {
+export class NavbarComponent implements OnInit  {
 
   _Router = inject(Router);
   _ToastrService = inject(ToastrService);
+  _MembersService = inject(MembersService);
   model:WritableSignal<ILoginForm> = signal({} as ILoginForm);
   private readonly _AccountService = inject(AccountService);
-  UserData:WritableSignal<ILoginResponse | null> = signal(null);
+  UserData:Signal<IUser | null> = computed(()=> this._AccountService.CurrentUser())
   IsLoggedIn:Signal<boolean> = computed(()=> this._AccountService.CurrentUser() !== null);
   showDropdown:WritableSignal<boolean> = signal(false);
-  UserName: Signal<string | undefined > = computed(()=> this._AccountService.CurrentUser()?.username);
+ 
+  ngOnInit(): void {
+    this._MembersService.loadMember();
+  }
 
  
   toggle():void{
     this.showDropdown.update(prev => !prev);
   }
 
-  
-loginSubmit() {
-this._AccountService.login(this.model()).subscribe({
-  next: (res:ILoginResponse) => {
-    this.UserData.set(res);
-    this._ToastrService.success(`Hello 👋 ${res.username}`,"DatingApp")
-    this._Router.navigateByUrl('/members');
-    this.toggle();
-  },
-  error:(err)=>{
-    this._ToastrService.error(err.error.message,"DatingApp 😬")
-  }
-})
-}
-
 logout():void{
   this._AccountService.logout();
-  this._ToastrService.info(`we miss you already 😔 `,"DatingApp")
+  this.toggle();
+  this._ToastrService.info(`we miss you already 😔 `,"Homies")
   this._Router.navigateByUrl('/');
 
 }

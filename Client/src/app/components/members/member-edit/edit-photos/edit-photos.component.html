@@ -1,0 +1,80 @@
+<section class="p-10 grid gap-3 grid-cols-4">
+    @for(photo of Member().photos;track photo.id){
+        <div [class.main-photo]="photo.isMain" class="col-span-1 cursor-pointer rounded relative">
+        <img (click)="changeProfilePicture(photo)" class="w-full rounded p-0" src="{{photo.url}}" alt="picture of user">
+        <button (click)="deletePhoto(photo)" class="absolute top-2 right-2 cursor-pointer rounded-full bg-sky-500">
+            <i class="fa-solid fa-close fa-2xl w-5 h-5 p-1 text-white"></i>
+        </button>
+    </div>
+    }
+    
+</section>
+
+<!-- ng-file-upload-module -->
+
+<div class="grid gap-5 grid-cols-4">
+ 
+    <div class="col-span-1">
+
+        <h3 class="font-bold text-xl mb-5">Add Photos</h3>
+
+        <div ng2FileDrop
+             [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+             (fileOver)="fileOverBase($event)"
+             [uploader]="uploader"
+             class="text-center flex flex-col w-full p-10 gap-2 justify-center items-center rounded-xl border cursor-pointer  hover:bg-gray-100 my-drop-zone">
+             <i class="fa fa-upload fa-3x"></i>
+            Drop photos here
+        </div>
+    </div>
+
+    <div *ngIf="uploader?.queue?.length" class="col-span-3 flex flex-col gap-5 justify-between" style="margin-bottom: 40px">
+
+        <h3  class="font-bold text-xl mb-5">Upload queue</h3>
+
+        <p>Queue length: {{ uploader?.queue?.length }}</p>
+
+        <table class="table">
+            <thead>
+            <tr class="text-center p-4">
+                <th class="">Name</th>
+                <th class="">Size</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center" *ngFor="let item of uploader?.queue">
+                <td><strong>{{ item?.file?.name }}</strong></td>
+                <td *ngIf="uploader?.options?.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <div>
+                <p class="font-semibold mb-2">Queue progress:</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" ></div>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+                    <div class="bg-sky-500 h-1.5 rounded-full dark:bg-blue-500" style="width: 45%" [ngStyle]="{ 'width': uploader?.progress + '%' }"></div>
+                  </div>
+            </div>
+           <div class="flex justify-evenly items-center my-5">
+            <button type="button" class="bg-green-400 cursor-pointer hover:bg-green-500 rounded px-4 py-2 text-white"
+            (click)="uploader?.uploadAll()" [disabled]="!uploader?.getNotUploadedItems()?.length">
+        <i class="fa fa-upload"></i> Upload all
+    </button>
+    <button type="button" class="bg-yellow-300 cursor-pointer hover:bg-yellow-400 rounded px-4 py-2 text-black"
+            (click)="uploader?.cancelAll()" [disabled]="!uploader?.isUploading">
+        <i class="fa fa-ban"></i> Cancel all
+    </button>
+    <button type="button" class="bg-sky-600 cursor-pointer hover:bg-sky-700 rounded px-4 py-2 text-white"
+            (click)="uploader?.clearQueue()" [disabled]="!uploader?.queue?.length">
+        <i class="fa fa-trash"></i> Remove all
+    </button>
+           </div>
+        </div>
+
+    </div>
+
+</div>

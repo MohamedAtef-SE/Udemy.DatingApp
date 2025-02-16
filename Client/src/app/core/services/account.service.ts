@@ -1,24 +1,39 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ILoginForm, ILoginResponse, IRegisterForm, IRegisterResponse } from '../Interfaces/Models';
 import { environment } from '../../../environments/environment';
+import { IUser, ILoginForm, IRegisterForm } from '../Models/Models';
+import { LikesService } from './likes.service';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  CurrentUser: WritableSignal<ILoginResponse | null> = signal(null);
-
   constructor(private _HttpClient:HttpClient) { }
 
-  login(data:ILoginForm):Observable<any>{
-     return this._HttpClient.post<ILoginResponse>(`${environment.baseURL}/api/account/login`,data).pipe(
+  CurrentUser: WritableSignal<IUser | null> = signal(null);
+  UserRoles:Signal<string[]> = computed(()=>{
+    const user = this.CurrentUser();
+    if(user && user.token){
+      const role = JSON.parse(atob(user.token.split('.')[1])).role; // PAYLOAD.role
+      return Array.isArray(role) ? role : [role]
+    }
+    return [];
+  })
+
+  _LikesService = inject(LikesService);
+  _PresenceService = inject(PresenceService);
+
+  login(data:ILoginForm):Observable<IUser>{
+     return this._HttpClient.post<IUser>(`${environment.baseURL}/account/login`,data).pipe(
       map(user => {
         if(user){
-          localStorage.setItem('DateAppUserToken',JSON.stringify(user))
+          localStorage.setItem('DateAppUser',JSON.stringify(user))
+          this._PresenceService.createHubConnection(user);
           this.CurrentUser.set(user);
+          this._LikesService.getLikeIds();
         }
         return user;
       })
@@ -26,7 +41,7 @@ export class AccountService {
   }
 
   register(data:IRegisterForm):Observable<any>{
-    return this._HttpClient.post<IRegisterResponse>(`${environment.baseURL}/api/account/register`,data).pipe(
+    return this._HttpClient.post<IUser>(`${environment.baseURL}/account/register`,data).pipe(
       map((user) => {
         if(user){
           localStorage.setItem('user',JSON.stringify(user));
@@ -38,7 +53,8 @@ export class AccountService {
   }
 
   logout():void{
-    localStorage.removeItem("DateAppUserToken");
+    localStorage.removeItem("DateAppUser");
+    this._PresenceService.stopHUbConnection();
     this.CurrentUser.set(null);
   }
 }
