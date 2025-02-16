@@ -1,7 +1,7 @@
 <div>
     <label [for]="label()" class="text-sm font-light mb-1">{{label()}}</label>
     <input [id]="label()" [formControl]="control" 
-    [class.border-red-500]="ngControl.invalid && ngControl.touched"
+    [class.border-sky-500]="ngControl.invalid && ngControl.touched"
     [type]="type()"
     class="bg-gray-50 border-2 placeholder:text-sm placeholder:text-gray-300 border-gray-100 text-gray-900 text-sm focus:outline-none focus:border-none rounded-lg block w-full p-2.5" 
     [placeholder]="label()"

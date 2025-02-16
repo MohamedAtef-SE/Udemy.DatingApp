@@ -11,10 +11,10 @@ export class HasRoleDirective implements OnInit {
   _AccountService = inject(AccountService);
   _ViewContainerRef = inject(ViewContainerRef);
   _TemplateRef = inject(TemplateRef);
-  Roles:Signal<string[]> = computed(()=>this._AccountService.Roles());
+  UserRoles:Signal<string[]> = computed(()=>this._AccountService.UserRoles());
 
   ngOnInit(): void {
-    const hasRole = this.Roles().some((role:string)=> this.appHasRole.includes(role));
+    const hasRole = this.UserRoles().some((userRole:string)=> this.appHasRole.includes(userRole));
     if(hasRole){
       this._ViewContainerRef.createEmbeddedView(this._TemplateRef)
     }else{

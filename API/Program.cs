@@ -1,6 +1,7 @@
 using API.Extentions;
 using API.Middlewares;
-using API.SignalR;
+using CQRS.Application.Extentions;
+using CQRS.Infrastructure.SignalR;
 
 namespace API
 {

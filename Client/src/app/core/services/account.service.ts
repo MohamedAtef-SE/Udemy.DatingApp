@@ -14,7 +14,7 @@ export class AccountService {
   constructor(private _HttpClient:HttpClient) { }
 
   CurrentUser: WritableSignal<IUser | null> = signal(null);
-  Roles:Signal<string[]> = computed(()=>{
+  UserRoles:Signal<string[]> = computed(()=>{
     const user = this.CurrentUser();
     if(user && user.token){
       const role = JSON.parse(atob(user.token.split('.')[1])).role; // PAYLOAD.role
@@ -26,7 +26,7 @@ export class AccountService {
   _LikesService = inject(LikesService);
   _PresenceService = inject(PresenceService);
 
-  login(data:ILoginForm):Observable<any>{
+  login(data:ILoginForm):Observable<IUser>{
      return this._HttpClient.post<IUser>(`${environment.baseURL}/account/login`,data).pipe(
       map(user => {
         if(user){

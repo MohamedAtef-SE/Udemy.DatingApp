@@ -1,21 +1,11 @@
-<div class="border border-red-100 rounded-lg">
+<div class="border border-sky-100 rounded-lg">
   <div class="font-semibold text-sm text-gray-500">
     <ul class="flex flex-wrap">
-        <li class="mr-2" *appHasRole="['Admin','Moderator']">
-            <button 
-              (click)="setActiveTab('photo-management')" 
-              [class.text-red-600]="activeTab === 'photo-management'"
-              [class.border-red-600]="activeTab === 'photo-management'"
-              class="block p-4 border-b-2"
-            >
-            Photo management
-            </button>
-          </li>
       <li class="mr-2" *appHasRole="['Admin']">
         <button 
           (click)="setActiveTab('user-management')" 
-          [class.text-red-600]="activeTab === 'user-management'"
-          [class.border-red-600]="activeTab === 'user-management'"
+          [class.text-sky-600]="activeTab === 'user-management'"
+          [class.border-sky-600]="activeTab === 'user-management'"
           class="block p-4 border-b-2"
         >
           User management
@@ -26,12 +16,7 @@
   <!-- Tab Content -->
   <div class="py-5">
     
-    @if(activeTab === 'photo-management'){
-      <div *appHasRole="['Admin','Moderator']" class="relative overflow-x-auto">
-        <app-photo-management></app-photo-management>
-      </div>
-    }
-    @else if(activeTab === 'user-management'){
+    @if(activeTab === 'user-management'){
       <div *appHasRole="['Admin']" class="relative overflow-x-auto">
         <app-user-management></app-user-management>
       </div>

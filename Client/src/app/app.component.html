@@ -1,10 +1,16 @@
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
-
-<ngx-spinner 
-bdColor = "rgba(240, 82, 82,.8)" 
-size = "large" 
-color = "#fff" 
-type = "ball-newton-cradle" 
-[fullScreen] = "true">
-</ngx-spinner>
+<div class="flex flex-col bg-gray-50 justify-between">
+    @if(isLogedIn()){
+        <app-navbar></app-navbar>
+    }
+    <div class="min-h-screen">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+    <ngx-spinner 
+    bdColor = "rgba(0, 0, 0,.75)" 
+    size = "large" 
+    color = "#fff" 
+    type = "ball-newton-cradle" 
+    [fullScreen] = "true">
+    </ngx-spinner>
+</div>

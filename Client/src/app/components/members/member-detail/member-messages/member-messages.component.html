@@ -23,7 +23,7 @@ class="container w-3/4 mx-auto rounded-xl bg-white p-10">
                      {{message.content}}
                     </p>
                 </div>
-                <p [class]="(message.dateRead ? 'text-green-400':'text-red-500') + ' text-sm font-normal m-0 text-end'">
+                <p [class]="(message.dateRead ? 'text-green-400':'text-sky-500') + ' text-sm font-normal m-0 text-end'">
                     {{message.dateRead ? 'Read':'Unread'}}
                 </p>
              </div>
@@ -38,9 +38,9 @@ class="container w-3/4 mx-auto rounded-xl bg-white p-10">
         required
         name="messageContent"
         [(ngModel)]="MessageContent" 
-        class="w-full focus:ring-0 focus:border-red-500 text-gray-500 border-gray-200 py-2 px-4 rounded" 
+        class="w-full focus:ring-0 focus:border-sky-500 text-gray-500 border-gray-200 py-2 px-4 rounded" 
         placeholder="Send a private message...">
-        <button [disabled]="messageForm.invalid" class="rounded disabled:bg-gray-400 block ms-auto my-2 bg-red-500 hover:bg-red-700 px-4 py-2 text-white font-semibold text-sm">
+        <button [disabled]="messageForm.invalid" class="rounded disabled:bg-gray-400 block ms-auto my-2 bg-sky-500 hover:bg-sky-700 px-4 py-2 text-white font-semibold text-sm">
             Send
         </button>
     </div>

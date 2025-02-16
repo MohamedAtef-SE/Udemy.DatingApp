@@ -11,31 +11,33 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
   const _Router = inject(Router);
 
   return next(req).pipe(
-    catchError((HttpErrorResponse)=>{
-      if(HttpErrorResponse){
-        switch(HttpErrorResponse.status){
+    catchError((httpErrorResponse)=>{
+      if(httpErrorResponse){
+        switch(httpErrorResponse.status){
           case 400:
-            if(HttpErrorResponse.error.errors){
+            if(httpErrorResponse.error.errors){
               const modalSatateErrors= [];
-              for(const key in HttpErrorResponse.error.errors){
-                if(HttpErrorResponse.error.errors[key]){
-                  modalSatateErrors.push(HttpErrorResponse.error.errors[key]) // pushed Array of string with each iteration for each key
+              for(const key in httpErrorResponse.error.errors){
+                if(httpErrorResponse.error.errors[key]){
+                  modalSatateErrors.push(httpErrorResponse.error.errors[key]) // pushed Array of string with each iteration for each key
                 }
               }
+              _ToastrService.error("Error")
               throw modalSatateErrors.flat<string[],1>();
             }
             else{
-              _ToastrService.error(HttpErrorResponse.error.message,HttpErrorResponse.status)
+              console.log(httpErrorResponse)
+              _ToastrService.error(httpErrorResponse.error.message,httpErrorResponse.status)
             }
               break;
             case 401:
-              _ToastrService.error("Unauthorized",HttpErrorResponse.status)
+              _ToastrService.error("Unauthorized",httpErrorResponse.status)
               break;
             case 404:
               _Router.navigateByUrl('/not-found');
               break;
             case 500:
-              const navigationExtras: NavigationExtras = {state: {error: HttpErrorResponse.error}};
+              const navigationExtras: NavigationExtras = {state: {error: httpErrorResponse.error}};
               _Router.navigateByUrl('/server-error',navigationExtras);
               break;
             default:
@@ -43,7 +45,7 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
               break;
         }
       }
-      throw HttpErrorResponse;
+      throw httpErrorResponse;
     })
   );
 

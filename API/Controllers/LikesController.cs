@@ -1,63 +1,51 @@
 ﻿using API.Controllers._common;
-using API.DTOs.members;
-using API.Entities;
 using API.Extentions;
-using API.Helpers;
-using API.Interfaces;
-using API.Pagination;
+using CQRS.Application._Commands.Likes.ToggleLike;
+using CQRS.Application._Queries.Likes.GetCurrentUserLikeIds;
+using CQRS.Application._Queries.Likes.GetUserLikes;
+using CQRS.Application.DTOs.members;
+using CQRS.Infrastructure.Pagination;
+using CQRS.Infrastructure.Params;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class LikesController(IUnitOfWork _unitOfWork) : BaseApiController
+    public class LikesController(IMediator _mediator) : BaseApiController
     {
         [HttpPost("{targetUserId:int}")]
-        public async Task<ActionResult<PagedList<MemberDTO>>> ToggleLike(int targetUserId)
+        public async Task<ActionResult> ToggleLike(int targetUserId)
         {
-            var soruceUserId = User.GetUserId();
-            //PagedList<MemberDTO>? members = null;
-            if (soruceUserId == targetUserId) return BadRequest("It's a Good to like yourself,but not in our DatingApp 😏");
-            var likeExist = await _unitOfWork.LikesRepository.GetUserLikeAsync(soruceUserId, targetUserId);
-            if (likeExist is not null)
-            {
-                _unitOfWork.LikesRepository.DeleteLike(likeExist);
-                //var likesParams = new LikesParams() { Predicate = "liked" };
-                //likesParams.UserId = soruceUserId;
-                //if (await _likesRepository.SaveChangesAsync())
-                //{
-                //    members = await _likesRepository.GetUserLikesAsync(likesParams);
-                //    Response.AddPaginationHeader<MemberDTO>(members);
-                //    return Ok(members);
-                //}
-            }
-            else
-            {
-                var userLike = new UserLike()
-                {
-                    SourceUserId = soruceUserId,
-                    TargetUserId = targetUserId
-                };
-                await _unitOfWork.LikesRepository.AddLike(userLike);
-            }
+            var toggleLikeCommand = new ToggleLikeCommand(targetUserId);
+            var result = await _mediator.Send(toggleLikeCommand);
 
-            if (await _unitOfWork.CompleteAsync()) return Ok();
+            if (!result.IsSuccess) return BadRequest(result.ErrorMessage);
 
-            return BadRequest("failed to update like");
+            return Ok();
         }
 
         [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<int>>> GetCurrentUserLikeIds()
         {
-            return Ok(await _unitOfWork.LikesRepository.GetCurrentUserLikeIdsAsync(User.GetUserId()));
+            var getCurrentUserLikeIdsQuery = new GetCurrentUserLikeIdsQuery();
+            var result = await _mediator.Send(getCurrentUserLikeIdsQuery);
+
+            if (!result.IsSuccess) return BadRequest(result.ErrorMessage);
+
+            return Ok(result.Value);
         }
 
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDTO>>> GetUserLikes([FromQuery] LikesParams likesParams)
         {
-            likesParams.UserId = User.GetUserId();
-            var users = await _unitOfWork.LikesRepository.GetUserLikesAsync(likesParams);
-            Response.AddPaginationHeader<MemberDTO>(users);
-            return Ok(users);
+            var getUserLikesQuery = new GetUserLikesQuery(likesParams);
+            var result = await _mediator.Send(getUserLikesQuery);
+
+            if (!result.IsSuccess) return BadRequest(result.ErrorMessage);
+
+            Response.AddPaginationHeader<MemberDTO>(result.Value!);
+
+            return Ok(result.Value);
         }
     }
 }

@@ -3,11 +3,13 @@ import { RouterLink } from '@angular/router';
 import { TimeagoModule } from 'ngx-timeago';
 import { IMessage, MessageParams } from '../../core/Models/Message';
 import { MessageService } from '../../core/services/message.service';
+import { AnimationOptions, LottieComponent } from 'ngx-lottie';
+import { AnimationItem } from 'lottie-web';
 
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [TimeagoModule,RouterLink],
+  imports: [TimeagoModule,RouterLink,LottieComponent],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css'
 })
@@ -27,10 +29,10 @@ export class MessagesComponent implements OnInit {
 
   getRoute(message:IMessage): string {
     if(this.messageParams.container == 'Outbox'){
-      return `/members/${message.recipientUserName}`
+      return `/members/${message.recipientUserName}/messages`
     }
     else{
-      return `/members/${message.senderUserName}`
+      return `/members/${message.senderUserName}/messages`
     }
     }
     
@@ -47,5 +49,13 @@ export class MessagesComponent implements OnInit {
   setContainer(container: string) {
     this.messageParams.container = container;
     this.loadMessages();
-    } 
+    }
+    
+    options: AnimationOptions = {
+      path: '/assets/svg/desert.json',
+    };
+    
+    animationCreated(animationItem: AnimationItem): void {
+    console.log(animationItem);
+  }
 }

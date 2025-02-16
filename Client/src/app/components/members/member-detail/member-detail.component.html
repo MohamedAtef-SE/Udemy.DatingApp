@@ -9,54 +9,40 @@
        }
         <div class="p-2">
         <p><span class="font-bold my-1">Location:</span> {{Member().city}}, {{Member().country}}</p>
+        <p><span class="font-bold my-1">Gender:</span> {{Member().gender}}</p>
         <p><span class="font-bold my-1">Age:</span> {{Member().age}}</p>
         <p><span class="font-bold my-1">Last active:</span> {{Member().lastActive | timeago }}</p>
         <p><span class="font-bold my-1">Member since:</span> {{Member().created | date }}</p>
        </div>
-       <div class="flex w-full my-5 justify-evenly">
-           <i class="fa-regular fa-heart cursor-pointer fa-2xl text-red-600 hover:text-red-700"></i>
-           <i class="fa-regular fa-message cursor-pointer fa-2xl text-yellow-300 hover:text-yellow-500"></i>
-       </div>
     </div>
     <div class="col-span-3">
         <div class="sm:hidden">
-            <label for="tabs" class="sr-only">Select your country</label>
-            <select id="tabs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option>Profile</option>
-                <option>Dashboard</option>
-                <option>setting</option>
-                <option>Invoioce</option>
-            </select>
+           
         </div>
         <ul class="hidden sm:flex text-sm font-medium text-center text-gray-500 rounded-lg shadow-sm">
             <li class="w-full focus-within:z-10">
-                <a routerLinkActive="active" [routerLink]="['about']" (click)="Clicked.set(true)" [queryParams]="{Introduction: Member().introduction, KnownAs: Member().knownAs}" class="inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
+                <a routerLinkActive="active" [routerLink]="['about']" [queryParams]="{Introduction: Member().introduction, KnownAs: Member().knownAs}" class="inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
                     About {{Member().knownAs}}
                 </a>
             </li>
             <li class="w-full focus-within:z-10">
-                <a routerLinkActive="active" [routerLink]="['interests']" (click)="Clicked.set(true)" [queryParams]="{Interests: Member().interests,LookingFor: Member().lookingFor}" class="inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
+                <a routerLinkActive="active" [routerLink]="['interests']" [queryParams]="{Interests: Member().interests,LookingFor: Member().lookingFor}" class="inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
                     Interests
                 </a>
             </li>
             <li class="w-full focus-within:z-10">
-                <a routerLinkActive="active" [routerLink]="['photos']" (click)="Clicked.set(true)" [queryParams]="{data:SerializedImages}" class="cursor-pointer inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
+                <a routerLinkActive="active" [routerLink]="['photos']"  [queryParams]="{data:SerializedImages}" class="cursor-pointer inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
                    Photos
                 </a>
             </li>
             <li class="w-full focus-within:z-10">
-                <a routerLinkActive="active" [routerLink]="['messages']" (click)="Clicked.set(true)" class="inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
+                <a routerLinkActive="active" [routerLink]="['messages']" class="inline-block rounded-t w-full p-4 text-gray-900 bg-white border-r border-gray-200" aria-current="page">
                     Messages
                 </a>
             </li>
         </ul> 
         <div class="bg-gray-100 p-5 rounded-b">
-           @if(Clicked()){
-            <router-outlet></router-outlet> 
-           }
-           @else {
-            <p class="text-center font-semibold italic p-10">What do you want to know about me!</p>
-           }
+            <router-outlet></router-outlet>
         </div>   
     </div>
 </section>
