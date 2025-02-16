@@ -1,7 +1,7 @@
 ﻿using API.Controllers._common;
-using API.Data;
-using API.DTOs.auth;
-using API.Entities;
+using CQRS.Application.DTOs.auth;
+using CQRS.Domain.Entities;
+using CQRS.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

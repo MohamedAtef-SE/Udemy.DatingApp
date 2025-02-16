@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit {
     if(this.RegisterFG.valid){
       this._AccountService.register(this.RegisterFG.value).subscribe({
         next: (res:IUser) =>{
-          this._ToastrService.success(`Welcome 😍 ${res.username},"Homies`);
+          this._ToastrService.success(`Welcome 😍 ${res.knownAs}`,"Homies");
           this._MemberService.loadMember();
           this._Router.navigate(['/members'])
         },

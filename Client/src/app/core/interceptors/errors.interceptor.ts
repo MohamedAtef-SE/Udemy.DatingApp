@@ -22,6 +22,7 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
                   modalSatateErrors.push(httpErrorResponse.error.errors[key]) // pushed Array of string with each iteration for each key
                 }
               }
+              _ToastrService.error("Error")
               throw modalSatateErrors.flat<string[],1>();
             }
             else{

@@ -1,4 +1,4 @@
-﻿using API.Helpers;
+﻿using CQRS.Application.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers._common

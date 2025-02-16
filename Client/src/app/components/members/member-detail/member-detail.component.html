@@ -9,13 +9,10 @@
        }
         <div class="p-2">
         <p><span class="font-bold my-1">Location:</span> {{Member().city}}, {{Member().country}}</p>
+        <p><span class="font-bold my-1">Gender:</span> {{Member().gender}}</p>
         <p><span class="font-bold my-1">Age:</span> {{Member().age}}</p>
         <p><span class="font-bold my-1">Last active:</span> {{Member().lastActive | timeago }}</p>
         <p><span class="font-bold my-1">Member since:</span> {{Member().created | date }}</p>
-       </div>
-       <div class="flex w-full my-5 justify-evenly">
-           <i class="fa-regular fa-heart cursor-pointer fa-2xl text-sky-600 hover:text-sky-700"></i>
-           <i class="fa-regular fa-message cursor-pointer fa-2xl text-yellow-300 hover:text-yellow-500"></i>
        </div>
     </div>
     <div class="col-span-3">
