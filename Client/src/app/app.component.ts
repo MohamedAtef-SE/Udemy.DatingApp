@@ -1,8 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
-import { AnimationItem } from 'lottie-web';
-import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { NgxSpinnerComponent } from 'ngx-spinner';
 import { FooterComponent } from "./components/footer/footer.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
