@@ -36,10 +36,15 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             app.UseHttpsRedirection();
             app.MapControllers();
             app.MapHub<PresenceHub>("hubs/presence"); // adding endpoint
             app.MapHub<MessageHub>("hubs/message"); // adding endpoint
+
+            app.MapFallbackToController("Index","Fallback");
 
             await app.SeedAsync();
 

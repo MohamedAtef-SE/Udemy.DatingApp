@@ -3,13 +3,13 @@ import { RouterLink } from '@angular/router';
 import { TimeagoModule } from 'ngx-timeago';
 import { IMessage, MessageParams } from '../../core/Models/Message';
 import { MessageService } from '../../core/services/message.service';
-import { AnimationOptions, LottieComponent } from 'ngx-lottie';
+import { AnimationOptions, LottieComponent, LottieModule } from 'ngx-lottie';
 import { AnimationItem } from 'lottie-web';
 
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [TimeagoModule,RouterLink,LottieComponent],
+  imports: [TimeagoModule,RouterLink,LottieModule,LottieComponent],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css'
 })

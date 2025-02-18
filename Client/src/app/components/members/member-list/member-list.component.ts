@@ -1,7 +1,7 @@
 import { Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AnimationItem } from 'lottie-web';
-import { AnimationOptions, LottieComponent } from 'ngx-lottie';
+import { AnimationOptions, LottieComponent, LottieModule } from 'ngx-lottie';
 import { IMember } from '../../../core/Models/IMember';
 import { UserParams } from '../../../core/Models/userParams';
 import { AccountService } from '../../../core/services/account.service';
@@ -13,7 +13,7 @@ import { MemberCardComponent } from '../member-card/member-card.component';
 @Component({
   selector: 'app-member-list',
   standalone: true,
-  imports: [MemberCardComponent,PaginationComponent,FormsModule,LottieComponent],
+  imports: [MemberCardComponent,PaginationComponent,FormsModule,LottieModule,LottieComponent],
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.css'
 })
