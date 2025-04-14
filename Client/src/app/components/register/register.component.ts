@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../core/services/account.service';
 import { MembersService } from '../../core/services/members.service';
@@ -10,7 +10,7 @@ import { IUser } from '../../core/Models/Models';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, InputTextComponent],
+  imports: [ReactiveFormsModule, InputTextComponent,RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

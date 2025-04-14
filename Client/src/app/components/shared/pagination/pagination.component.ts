@@ -45,16 +45,11 @@ export class PaginationComponent implements OnInit  {
     if(this._ActivatedRoute.snapshot.url.toString().includes('lists')){
       this.likesParams.pageNumber = pageNumber;
       this._LikesService.getLikes(this.likesParams);
-      console.log("list page")
-      console.log(this._ActivatedRoute.snapshot.url.toString())
     }
     else if(this._ActivatedRoute.snapshot.url.toString().includes('members')){
       this.userParams.pageNumber = pageNumber;
-      this._MembersService.getAllMembers(this.userParams);
-      console.log("main-page")
-      console.log(this._ActivatedRoute.snapshot.url.toString())
-      
+      this.userParams.gender = this._MembersService.pickedUserparams()?.gender || this.userParams.gender;
+      this._MembersService.getAllMembers(this.userParams); 
     }
-    
-    }
+  }
 }

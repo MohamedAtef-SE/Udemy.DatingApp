@@ -44,7 +44,7 @@ export class EditPhotosComponent implements OnInit {
           currentUser.photoURL = photo.url
           this._AccountService.CurrentUser.set(currentUser);
           const userAsJSON = JSON.stringify(this._AccountService.CurrentUser());
-          localStorage.setItem("DateAppUser",userAsJSON)
+          localStorage.setItem("HommiesUser",userAsJSON)
         }
       }
     })
