@@ -38,6 +38,8 @@ logout():void{
   this._AccountService.logout();
   this.toggle();
   this._ToastrService.info(`we miss you already 😔 `,"Homies")
+  this._MembersService.memberCache = new Map();
+  this._MembersService.pickedUserparams.set(null);
   this._Router.navigateByUrl('/');
 
 }

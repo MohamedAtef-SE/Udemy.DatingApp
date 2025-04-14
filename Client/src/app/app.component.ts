@@ -37,7 +37,7 @@ export class AppComponent {
   }
 
   getUser():void{
-    const userAsJSON = localStorage.getItem('DateAppUser');
+    const userAsJSON = localStorage.getItem('HommiesUser');
     if(userAsJSON){
       const user : IUser = JSON.parse(userAsJSON);
       this._PresenceService.createHubConnection(user);
