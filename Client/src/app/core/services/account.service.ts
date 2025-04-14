@@ -30,7 +30,7 @@ export class AccountService {
      return this._HttpClient.post<IUser>(`${environment.baseURL}/account/login`,data).pipe(
       map(user => {
         if(user){
-          localStorage.setItem('DateAppUser',JSON.stringify(user))
+          localStorage.setItem('HommiesUser',JSON.stringify(user))
           this._PresenceService.createHubConnection(user);
           this.CurrentUser.set(user);
           this._LikesService.getLikeIds();
@@ -44,7 +44,7 @@ export class AccountService {
     return this._HttpClient.post<IUser>(`${environment.baseURL}/account/register`,data).pipe(
       map((user) => {
         if(user){
-          localStorage.setItem('user',JSON.stringify(user));
+          localStorage.setItem('HommiesUser',JSON.stringify(user));
           this.CurrentUser.set(user);
         }
         return user
@@ -53,7 +53,7 @@ export class AccountService {
   }
 
   logout():void{
-    localStorage.removeItem("DateAppUser");
+    localStorage.removeItem("HommiesUser");
     this._PresenceService.stopHUbConnection();
     this.CurrentUser.set(null);
   }

@@ -35,7 +35,6 @@ export class MembersService {
   getAllMembers(userParams:UserParams): Subscription | void{
     
     const response = this.memberCache.get(Object.values(userParams).join('-'));
-
     if(response) return setPaginatedResponse(response,this._PaginatationService.paginatedResult);
  
     let params = setPaginationHeader(userParams);
@@ -149,7 +148,7 @@ export class MembersService {
             }
           });
           const userJSON = JSON.stringify(this._AccountService.CurrentUser());
-          localStorage.setItem("DateAppUser",userJSON)
+          localStorage.setItem("HommiesUser",userJSON)
         }
 
       })
